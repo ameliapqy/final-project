@@ -12,11 +12,16 @@ Start off by forking this repository. In your README, write a design doc to outl
 
 #### Introduction
 
-- What motivates your project? -- Interest in real-time stylization in forms of -- Chinese ink and wash painting -- Allow users to generate Chinese painting with parameters that control the subject in the project
+- What motivates your project? 
+  - Interest in real-time stylization in forms of 
+  - Chinese ink and wash painting 
+  - Allow users to generate Chinese painting with parameters that control the subject in the project
 
 #### Goal
 
-- What do you intend to achieve with this project? -- Create shaders that produce stylization effects that simulate Chinese ink and wash painting style -- Allow users to control the appearances of the subjects in the painting, such as the height and range of the mountains, the iterations of the L-systems for the trees, and the number of boats in the river, size of the sun or moon, etc.
+- What do you intend to achieve with this project? 
+  - Create shaders that produce stylization effects that simulate Chinese ink and wash painting style 
+  - Allow users to control the appearances of the subjects in the painting, such as the height and range of the mountains, the iterations of the L-systems for the trees, and the number of boats in the river, size of the sun or moon, etc.
 
 #### Inspiration/reference:
 

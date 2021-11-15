@@ -26,7 +26,7 @@ Start off by forking this repository. In your README, write a design doc to outl
 #### Inspiration/reference:
 
 - You must have some form of reference material for your final project. Your reference may be a research paper, a blog post, some artwork, a video, another class at Penn, etc.
-- Include in your design doc links to and images of your reference material.
+- Include in your design doc links to and images of your reference material. ![](ref.jpeg)
   - https://github.com/gracelgilbert/watercolor-stylization
   - Volumetric : https://www.shadertoy.com/view/4sjfzw
   - Hatching: https://www.shadertoy.com/view/MsSGD1

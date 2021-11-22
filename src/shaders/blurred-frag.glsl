@@ -43,7 +43,8 @@ void main()
 	for(int y = -4; y <= 4; y++){
 			for(int x = -4; x <= 4; x++){
 					// vec2 uv = vec2(fs_UV.x + unitx * x, fs_UV.y + unity * y);
-					avg += texture(u_RenderedTexture, uv) * weights[ (y+4) + 9 * (x+4) ];
+					// avg += texture(u_RenderedTexture, uv) * weights[ (y+4) + 9 * (x+4) ];
+					avg += color * weights[ (y+4) + 9 * (x+4) ];
 			}
 	}
 	out_Col = avg;

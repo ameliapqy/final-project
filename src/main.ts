@@ -34,6 +34,15 @@ let base: Mesh;
 let time: number = 0.0;
 let changed: boolean = true;
 
+let paperTexture: WebGLTexture;
+let blurredTexture: WebGLTexture;
+
+let blurfb: WebGLFramebuffer;
+let paperfb: WebGLFramebuffer;
+
+let blurrb: WebGLRenderbuffer;
+let paperrb: WebGLRenderbuffer;
+
 function backgroundSetup() {
   let colorsArray = [0.5, 0.55, 0.6, 1.0];
 
@@ -173,6 +182,17 @@ function main() {
   // Later, we can import `gl` from `globals.ts` to access it
   setGL(gl);
 
+  function textureSetup() {
+    blurredTexture = gl.createTexture();
+    paperTexture = gl.createTexture();
+
+    paperfb = gl.createFramebuffer();
+    blurfb = gl.createFramebuffer();
+
+    paperrb = gl.createRenderbuffer();
+    blurrb = gl.createRenderbuffer();
+  }
+
   // Initial call to load scene
   loadScene();
 
@@ -186,12 +206,22 @@ function main() {
 
   const instancedShader = new ShaderProgram([
     new Shader(gl.VERTEX_SHADER, require('./shaders/instanced-vert.glsl')),
-    new Shader(gl.FRAGMENT_SHADER, require('./shaders/blurred-frag.glsl')),
+    new Shader(gl.FRAGMENT_SHADER, require('./shaders/instanced-frag.glsl')),
   ]);
 
   const flat = new ShaderProgram([
     new Shader(gl.VERTEX_SHADER, require('./shaders/flat-vert.glsl')),
     new Shader(gl.FRAGMENT_SHADER, require('./shaders/flat-frag.glsl')),
+  ]);
+
+  const paper = new ShaderProgram([
+    new Shader(gl.VERTEX_SHADER, require('./shaders/flat-vert.glsl')),
+    new Shader(gl.FRAGMENT_SHADER, require('./shaders/paper-frag.glsl')),
+  ]);
+
+  const blurred = new ShaderProgram([
+    new Shader(gl.VERTEX_SHADER, require('./shaders/instanced-vert.glsl')),
+    new Shader(gl.FRAGMENT_SHADER, require('./shaders/blurred-frag.glsl')),
   ]);
 
   // This function will be called every frame
@@ -206,8 +236,10 @@ function main() {
     renderer.clear();
     //set LSystem Up
     lsystermSetup();
-    renderer.render(camera, flat, [screenQuad]);
+    renderer.render(camera, paper, [screenQuad]);
+    // renderer.render(camera, flat, [screenQuad]);
     renderer.render(camera, instancedShader, [cylinder, flower, base]);
+    renderer.render(camera, blurred, [screenQuad]);
     stats.end();
     // Tell the browser to call `tick` again whenever it renders a new frame
     requestAnimationFrame(tick);

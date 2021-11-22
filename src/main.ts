@@ -186,7 +186,7 @@ function main() {
 
   const instancedShader = new ShaderProgram([
     new Shader(gl.VERTEX_SHADER, require('./shaders/instanced-vert.glsl')),
-    new Shader(gl.FRAGMENT_SHADER, require('./shaders/instanced-frag_old.glsl')),
+    new Shader(gl.FRAGMENT_SHADER, require('./shaders/blurred-frag.glsl')),
   ]);
 
   const flat = new ShaderProgram([

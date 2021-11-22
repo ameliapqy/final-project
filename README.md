@@ -72,7 +72,15 @@ The entire project will be written in WebGL: ![](diagram.png)
 
 Submit your Design doc as usual via pull request against this repository.
 
-- Week1 (11/15-11/22): Amelia: Create project skeleton with instance rendering methods Effie: Create basic scene Effie: Code ink wash shader (edge and color bleeding) Amelia: Code ink wash shader (blur and paper effect)
+- Week1 (11/15-11/22): 
+
+Amelia: Create project skeleton with instance rendering methods 
+
+Effie: Create basic scene 
+
+Effie: Code ink wash shader (edge and color bleeding) 
+
+Amelia: Code ink wash shader (blur and paper effect)
 - Week2 (11/22-11/29): Add elements to the scene like trees, birds, and mountains (each take half of the scene)
 - Week3 (11/29-12/6): Tune the scene and add parameters (each take half of the parameters)
 

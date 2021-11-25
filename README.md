@@ -1,40 +1,32 @@
 # Final Project!
 
-This is it! The culmination of your procedural graphics experience this semester. For your final project, we'd like to give you the time and space to explore a topic of your choosing. You may choose any topic you please, so long as you vet the topic and scope with an instructor or TA. We've provided some suggestions below. The scope of your project should be roughly 1.5 homework assignments). To help structure your time, we're breaking down the project into 4 milestones:
-
-## Milestone 1: Project planning (due 11/15)
-
-Before submitting your first milestone, _you must get your project idea and scope approved by Rachel, Adam or a TA._
-
 ### Design Doc
-
-Start off by forking this repository. In your README, write a design doc to outline your project goals and implementation plan. It must include the following sections:
 
 #### Introduction
 
-- What motivates your project?
+- What motivates our project
   - Interest in real-time stylization in forms of
   - Chinese ink and wash painting
   - Allow users to generate Chinese painting with parameters that control the subject in the project
 
 #### Goal
 
-- What do you intend to achieve with this project?
+- What do we intend to achieve with this project
   - Create shaders that produce stylization effects that simulate Chinese ink and wash painting style
   - Allow users to control the appearances of the subjects in the painting, such as the height and range of the mountains, the iterations of the L-systems for the trees, and the number of boats in the river, size of the sun or moon, etc.
 
 #### Inspiration/reference:
 
-- You must have some form of reference material for your final project. Your reference may be a research paper, a blog post, some artwork, a video, another class at Penn, etc.
-- Include in your design doc links to and images of your reference material. ![](ref.jpeg)
-  - https://github.com/gracelgilbert/watercolor-stylization
-  - Volumetric : https://www.shadertoy.com/view/4sjfzw
-  - Hatching: https://www.shadertoy.com/view/MsSGD1
-  - Sketch drawing: https://www.shadertoy.com/view/ldXfRj
-  - https://www.shadertoy.com/view/ltyGRV
-  - https://www.shadertoy.com/view/lt2BRm
-  - Hatching & pointilism: https://www.cis.upenn.edu/~cis460/17fa/lectures/proceduralColor.pdf
-  - Video : https://artineering.io/publications/Art-Directed-Watercolor-Stylization-of-3D-Animations-in-Real-Time/
+![](ref.jpeg)
+
+- https://github.com/gracelgilbert/watercolor-stylization
+- Volumetric : https://www.shadertoy.com/view/4sjfzw
+- Hatching: https://www.shadertoy.com/view/MsSGD1
+- Sketch drawing: https://www.shadertoy.com/view/ldXfRj
+- https://www.shadertoy.com/view/ltyGRV
+- https://www.shadertoy.com/view/lt2BRm
+- Hatching & pointilism: https://www.cis.upenn.edu/~cis460/17fa/lectures/proceduralColor.pdf
+- Video : https://artineering.io/publications/Art-Directed-Watercolor-Stylization-of-3D-Animations-in-Real-Time/
 
 #### Specification:
 
@@ -45,7 +37,7 @@ Start off by forking this repository. In your README, write a design doc to outl
 
 #### Techniques:
 
-- What are the main technical/algorithmic tools you’ll be using? Give an overview, citing specific papers/articles.
+- main technical/algorithmic tools we'll be using
   - WebGL to display the project
   - Glsl to write shaders
   - Scene:
@@ -62,38 +54,33 @@ Start off by forking this repository. In your README, write a design doc to outl
 
 #### Design:
 
-- How will your program fit together? Make a simple free-body diagram illustrating the pieces.
-
 The entire project will be written in WebGL: ![](diagram.png)
 
 #### Timeline:
 
-- Create a week-by-week set of milestones for each person in your group. Make sure you explicitly outline what each group member's duties will be.
+- Week1 (11/15-11/22):
 
-Submit your Design doc as usual via pull request against this repository.
+Amelia: Create project skeleton with instance rendering methods
 
-- Week1 (11/15-11/22): 
+Effie: Create basic scene
 
-Amelia: Create project skeleton with instance rendering methods 
-
-Effie: Create basic scene 
-
-Effie: Code ink wash shader (edge and color bleeding) 
+Effie: Code ink wash shader (edge and color bleeding)
 
 Amelia: Code ink wash shader (blur and paper effect)
+
 - Week2 (11/22-11/29): Add elements to the scene like trees, birds, and mountains (each take half of the scene)
 - Week3 (11/29-12/6): Tune the scene and add parameters (each take half of the parameters)
 
 ## Milestone 2: Implementation part 1 (due 11/22)
 
-Begin implementing your engine! Don't worry too much about polish or parameter tuning -- this week is about getting together the bulk of your generator implemented. By the end of the week, even if your visuals are crude, the majority of your generator's functionality should be done.
+Progress:
 
-Put all your code in your forked repository.
+- set up basic scene and instance rendering
+- begin writing shaders for the water color effect
 
-Submission: Add a new section to your README titled: Milestone #1, which should include
+Challenges:
 
-- written description of progress on your project goals. If you haven't hit all your goals, what's giving you trouble?
-- Examples of your generators output so far We'll check your repository for updates. No need to create a new pull request.
+- adding post process shaders are much harder than expected since a sampler2D is needed to passed into the machine.
 
 ## Milestone 3: Implementation part 2 (due 11/29)
 

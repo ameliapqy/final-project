@@ -193,6 +193,28 @@ function main() {
     blurrb = gl.createRenderbuffer();
   }
 
+  function createRenderBuffers() {
+    gl.bindFramebuffer(gl.FRAMEBUFFER, paperTexture);
+    gl.bindFramebuffer(gl.FRAMEBUFFER, blurredTexture);
+    // Bind our texture so that all functions that deal with textures will interact with this one
+    gl.bindTexture(gl.TEXTURE_2D, paperfb);
+    gl.bindTexture(gl.TEXTURE_2D, blurfb);
+
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, window.innerWidth, window.innerHeight, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+
+    // Initialize our depth buffer
+    gl.bindRenderbuffer(gl.RENDERBUFFER, blurrb);
+    gl.renderbufferStorage(gl.RENDERBUFFER, gl.DEPTH_COMPONENT16, window.innerWidth, window.innerHeight);
+    gl.framebufferRenderbuffer(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.RENDERBUFFER, blurrb);
+
+    // Set m_renderedTexture as the color output of our frame buffer
+    gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, blurredTexture, 0);
+  }
+
   // Initial call to load scene
   loadScene();
 

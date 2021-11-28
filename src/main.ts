@@ -198,27 +198,47 @@ function main() {
   }
 
   function bindTextures(texture: WebGLTexture, fb: WebGLFramebuffer, rb: WebGLRenderbuffer) {
-    gl.bindTexture(gl.TEXTURE_2D, texture);
+    //frame buffer
     gl.bindFramebuffer(gl.FRAMEBUFFER, fb);
-    gl.bindRenderbuffer(gl.RENDERBUFFER, rb);
 
+    //texture
+    gl.bindTexture(gl.TEXTURE_2D, texture);
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, window.innerWidth, window.innerHeight, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-
-    gl.renderbufferStorage(gl.RENDERBUFFER, gl.DEPTH_COMPONENT16, window.innerWidth, window.innerHeight);
-    gl.framebufferRenderbuffer(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.RENDERBUFFER, rb);
-    // Set m_renderedTexture as the color output of our frame buffer
+    gl.bindTexture(gl.TEXTURE_2D, null);
+    //attach texture to frame buffer
     gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, texture, 0);
-    gl.drawBuffers([gl.COLOR_ATTACHMENT0]);
+
+    //render buffer
+    gl.bindRenderbuffer(gl.RENDERBUFFER, rb);
+    //creating a depth and stencil renderbuffer object
+    gl.renderbufferStorage(gl.RENDERBUFFER, gl.DEPTH_COMPONENT16, window.innerWidth, window.innerHeight);
+    gl.bindRenderbuffer(gl.RENDERBUFFER, null);
+    //attach renderbuffer ibject
+    gl.framebufferRenderbuffer(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.RENDERBUFFER, rb);
+
     if (gl.checkFramebufferStatus(gl.FRAMEBUFFER) != gl.FRAMEBUFFER_COMPLETE) {
       console.log('frame buffer not complete');
     }
+    gl.drawBuffers([gl.COLOR_ATTACHMENT0]);
+    gl.bindFramebuffer(gl.FRAMEBUFFER, null);
 
     // gl.viewport(0, 0, window.innerWidth, window.innerHeight);
     // gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+  }
+
+  function unbindTextures(texture: WebGLTexture, fb: WebGLFramebuffer, rb: WebGLRenderbuffer) {
+    //unbind render buffers
+    gl.bindTexture(gl.TEXTURE_2D, null);
+    gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+    gl.bindRenderbuffer(gl.RENDERBUFFER, null);
+
+    gl.deleteTexture(texture);
+    gl.deleteFramebuffer(fb);
+    gl.deleteRenderbuffer(rb);
   }
 
   // Initial call to load scene
@@ -235,6 +255,11 @@ function main() {
   const instancedShader = new ShaderProgram([
     new Shader(gl.VERTEX_SHADER, require('./shaders/instanced-vert.glsl')),
     new Shader(gl.FRAGMENT_SHADER, require('./shaders/instanced-frag.glsl')),
+  ]);
+
+  const passthrough = new ShaderProgram([
+    new Shader(gl.VERTEX_SHADER, require('./shaders/flat-vert.glsl')),
+    new Shader(gl.FRAGMENT_SHADER, require('./shaders/passthrough-frag.glsl')),
   ]);
 
   const flat = new ShaderProgram([
@@ -267,22 +292,25 @@ function main() {
 
     //scenes set up
 
-    // //Paper Pass
-    // bindTextures(paperTexture, paperfb, paperrb);
+    //1. Paper Pass
+    bindTextures(paperTexture, paperfb, paperrb);
     renderer.render(camera, paper, [screenQuad]);
 
-    //Scene Pass
+    //2. Scene Pass
     bindTextures(sceneTexture, scenefb, scenerb); //make the scene disappear...?
     gl.activeTexture(gl.TEXTURE1);
+    gl.bindTexture(gl.TEXTURE_2D, paperTexture);
     flat.setTex1();
     renderer.render(camera, instancedShader, [cylinder, flower, base]);
 
-    //Blur Pass
+    //3. Blur Pass
     bindTextures(blurredTexture, blurfb, blurrb);
     gl.activeTexture(gl.TEXTURE1);
     gl.bindTexture(gl.TEXTURE_2D, sceneTexture);
-    blurred.setTex1();
-    renderer.render(camera, blurred, [screenQuad]);
+    // blurred.setTex1();
+    // renderer.render(camera, blurred, [screenQuad]);
+    passthrough.setTex1();
+    renderer.render(camera, passthrough, [screenQuad]);
 
     stats.end();
     // Tell the browser to call `tick` again whenever it renders a new frame

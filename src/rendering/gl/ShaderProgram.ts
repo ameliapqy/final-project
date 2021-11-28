@@ -144,6 +144,13 @@ class ShaderProgram {
     }
   }
 
+  setTex1() {
+    this.use();
+    if (this.unifSampler2D !== -1) {
+      gl.uniform1i(this.unifSampler2D, 1);
+    }
+  }
+
   draw(d: Drawable) {
     this.use();
 

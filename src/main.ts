@@ -32,14 +32,17 @@ let base: Mesh;
 let time: number = 0.0;
 let changed: boolean = true;
 
+let sceneTexture: WebGLTexture;
+let scenefb: WebGLFramebuffer;
+let scenerb: WebGLRenderbuffer;
+
 let paperTexture: WebGLTexture;
-let blurredTexture: WebGLTexture;
-
-let blurfb: WebGLFramebuffer;
 let paperfb: WebGLFramebuffer;
-
-let blurrb: WebGLRenderbuffer;
 let paperrb: WebGLRenderbuffer;
+
+let blurredTexture: WebGLTexture;
+let blurfb: WebGLFramebuffer;
+let blurrb: WebGLRenderbuffer;
 
 function backgroundSetup() {
   let colorsArray = [0.5, 0.55, 0.6, 1.0];
@@ -181,13 +184,16 @@ function main() {
   initTextures();
 
   function initTextures() {
+    sceneTexture = gl.createTexture();
+    scenefb = gl.createFramebuffer();
+    scenerb = gl.createRenderbuffer();
+
     paperTexture = gl.createTexture();
-    blurredTexture = gl.createTexture();
-
     paperfb = gl.createFramebuffer();
-    blurfb = gl.createFramebuffer();
-
     paperrb = gl.createRenderbuffer();
+
+    blurredTexture = gl.createTexture();
+    blurfb = gl.createFramebuffer();
     blurrb = gl.createRenderbuffer();
   }
 
@@ -204,15 +210,15 @@ function main() {
 
     gl.renderbufferStorage(gl.RENDERBUFFER, gl.DEPTH_COMPONENT16, window.innerWidth, window.innerHeight);
     gl.framebufferRenderbuffer(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.RENDERBUFFER, rb);
-
     // Set m_renderedTexture as the color output of our frame buffer
     gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, texture, 0);
     gl.drawBuffers([gl.COLOR_ATTACHMENT0]);
     if (gl.checkFramebufferStatus(gl.FRAMEBUFFER) != gl.FRAMEBUFFER_COMPLETE) {
       console.log('frame buffer not complete');
     }
-    gl.viewport(0, 0, window.innerWidth, window.innerHeight);
-    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
+    // gl.viewport(0, 0, window.innerWidth, window.innerHeight);
+    // gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
   }
 
   // Initial call to load scene
@@ -258,17 +264,25 @@ function main() {
     renderer.clear();
     //set LSystem Up
     lsystermSetup();
+
     //scenes set up
-    renderer.render(camera, paper, [screenQuad]);
-    renderer.render(camera, instancedShader, [cylinder, flower, base]);
 
     // //Paper Pass
     // bindTextures(paperTexture, paperfb, paperrb);
-    // renderer.render(camera, paper, [screenQuad]);
+    renderer.render(camera, paper, [screenQuad]);
 
-    // //Blur Pass
-    // bindTextures(blurredTexture, blurfb, blurrb);
-    // renderer.render(camera, blurred, [screenQuad]);
+    //Scene Pass
+    bindTextures(sceneTexture, scenefb, scenerb); //make the scene disappear...?
+    gl.activeTexture(gl.TEXTURE1);
+    flat.setTex1();
+    renderer.render(camera, instancedShader, [cylinder, flower, base]);
+
+    //Blur Pass
+    bindTextures(blurredTexture, blurfb, blurrb);
+    gl.activeTexture(gl.TEXTURE1);
+    gl.bindTexture(gl.TEXTURE_2D, sceneTexture);
+    blurred.setTex1();
+    renderer.render(camera, blurred, [screenQuad]);
 
     stats.end();
     // Tell the browser to call `tick` again whenever it renders a new frame

@@ -34,10 +34,11 @@ class ExpansionRule {
 
   expandU() {
     let rand = Math.random();
-    if (rand < 0.9) return 'B/B//B/B/B';
-    else if (rand < 0.8) return 'B///B//B';
+    if (rand < 0.9) return 'B///B/';
+    else if (rand < 0.8) return '//B/B';
     else return '/U';
   }
+
   expandAxiom(iter: number) {
     let result: string = this.axiom;
 

@@ -17,8 +17,8 @@ import Mesh from './geometry/Mesh';
 const controls = {
   iterations: 5,
   angle: 25,
-  flower_color: [255, 170, 170],
-  flower_scale: 4,
+  flower_color: [240, 90, 100],
+  flower_scale: 2,
   speed: 1,
   time: 0,
 };
@@ -203,13 +203,13 @@ function main() {
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
 
     gl.renderbufferStorage(gl.RENDERBUFFER, gl.DEPTH_COMPONENT16, window.innerWidth, window.innerHeight);
-    gl.framebufferRenderbuffer(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.RENDERBUFFER, blurrb);
+    gl.framebufferRenderbuffer(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.RENDERBUFFER, rb);
 
     // Set m_renderedTexture as the color output of our frame buffer
-    gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, blurredTexture, 0);
+    gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, texture, 0);
     gl.drawBuffers([gl.COLOR_ATTACHMENT0]);
     if (gl.checkFramebufferStatus(gl.FRAMEBUFFER) != gl.FRAMEBUFFER_COMPLETE) {
-      console.log('error');
+      console.log('frame buffer not complete');
     }
     gl.viewport(0, 0, window.innerWidth, window.innerHeight);
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
@@ -262,9 +262,13 @@ function main() {
     renderer.render(camera, paper, [screenQuad]);
     renderer.render(camera, instancedShader, [cylinder, flower, base]);
 
-    //Blur Pass
-    bindTextures(blurredTexture, blurfb, blurrb);
-    renderer.render(camera, blurred, [screenQuad]);
+    // //Paper Pass
+    // bindTextures(paperTexture, paperfb, paperrb);
+    // renderer.render(camera, paper, [screenQuad]);
+
+    // //Blur Pass
+    // bindTextures(blurredTexture, blurfb, blurrb);
+    // renderer.render(camera, blurred, [screenQuad]);
 
     stats.end();
     // Tell the browser to call `tick` again whenever it renders a new frame

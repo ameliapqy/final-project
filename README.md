@@ -19,7 +19,6 @@
 
 ![](ref.jpeg)
 
-- https://github.com/gracelgilbert/watercolor-stylization
 - Volumetric : https://www.shadertoy.com/view/4sjfzw
 - Hatching: https://www.shadertoy.com/view/MsSGD1
 - Sketch drawing: https://www.shadertoy.com/view/ldXfRj
@@ -27,6 +26,7 @@
 - https://www.shadertoy.com/view/lt2BRm
 - Hatching & pointilism: https://www.cis.upenn.edu/~cis460/17fa/lectures/proceduralColor.pdf
 - Video : https://artineering.io/publications/Art-Directed-Watercolor-Stylization-of-3D-Animations-in-Real-Time/
+- post-process: https://learnopengl.com/In-Practice/2D-Game/Postprocessing
 
 #### Specification:
 

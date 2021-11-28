@@ -8,10 +8,8 @@ import Camera from './Camera';
 import { setGL } from './globals';
 import ShaderProgram, { Shader } from './rendering/gl/ShaderProgram';
 
-import Turtle from './lsystem/Turtle';
 import LSystem from './lsystem/LSystem';
-import ExpansionRule from './lsystem/ExpansionRule';
-import { readTextFile, toRadian } from './globals';
+import { readTextFile } from './globals';
 import Mesh from './geometry/Mesh';
 
 // Define an object with application parameters and button callbacks
@@ -70,7 +68,6 @@ function lsystermSetup() {
   // Init LSystem
   let lsystem: LSystem = new LSystem(controls); //new ExpansionRule(controls));
   let data = lsystem.draw();
-  console.log(data);
   let colors: Float32Array = new Float32Array(data['trunks'].color);
   let col1s: Float32Array = new Float32Array(data['trunks'].col1);
   let col2s: Float32Array = new Float32Array(data['trunks'].col2);
@@ -181,10 +178,11 @@ function main() {
   // `setGL` is a function imported above which sets the value of `gl` in the `globals.ts` module.
   // Later, we can import `gl` from `globals.ts` to access it
   setGL(gl);
+  initTextures();
 
-  function textureSetup() {
-    blurredTexture = gl.createTexture();
+  function initTextures() {
     paperTexture = gl.createTexture();
+    blurredTexture = gl.createTexture();
 
     paperfb = gl.createFramebuffer();
     blurfb = gl.createFramebuffer();
@@ -193,12 +191,10 @@ function main() {
     blurrb = gl.createRenderbuffer();
   }
 
-  function createRenderBuffers() {
-    gl.bindFramebuffer(gl.FRAMEBUFFER, paperTexture);
-    gl.bindFramebuffer(gl.FRAMEBUFFER, blurredTexture);
-    // Bind our texture so that all functions that deal with textures will interact with this one
-    gl.bindTexture(gl.TEXTURE_2D, paperfb);
-    gl.bindTexture(gl.TEXTURE_2D, blurfb);
+  function bindTextures(texture: WebGLTexture, fb: WebGLFramebuffer, rb: WebGLRenderbuffer) {
+    gl.bindTexture(gl.TEXTURE_2D, texture);
+    gl.bindFramebuffer(gl.FRAMEBUFFER, fb);
+    gl.bindRenderbuffer(gl.RENDERBUFFER, rb);
 
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, window.innerWidth, window.innerHeight, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
@@ -206,13 +202,17 @@ function main() {
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
 
-    // Initialize our depth buffer
-    gl.bindRenderbuffer(gl.RENDERBUFFER, blurrb);
     gl.renderbufferStorage(gl.RENDERBUFFER, gl.DEPTH_COMPONENT16, window.innerWidth, window.innerHeight);
     gl.framebufferRenderbuffer(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.RENDERBUFFER, blurrb);
 
     // Set m_renderedTexture as the color output of our frame buffer
     gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, blurredTexture, 0);
+    gl.drawBuffers([gl.COLOR_ATTACHMENT0]);
+    if (gl.checkFramebufferStatus(gl.FRAMEBUFFER) != gl.FRAMEBUFFER_COMPLETE) {
+      console.log('error');
+    }
+    gl.viewport(0, 0, window.innerWidth, window.innerHeight);
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
   }
 
   // Initial call to load scene
@@ -258,10 +258,14 @@ function main() {
     renderer.clear();
     //set LSystem Up
     lsystermSetup();
+    //scenes set up
     renderer.render(camera, paper, [screenQuad]);
-    // renderer.render(camera, flat, [screenQuad]);
     renderer.render(camera, instancedShader, [cylinder, flower, base]);
+
+    //Blur Pass
+    bindTextures(blurredTexture, blurfb, blurrb);
     renderer.render(camera, blurred, [screenQuad]);
+
     stats.end();
     // Tell the browser to call `tick` again whenever it renders a new frame
     requestAnimationFrame(tick);

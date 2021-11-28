@@ -36,14 +36,16 @@ void main()
 	float lightIntensity = diffuseTerm + ambientTerm;
 	vec4 color =  clamp(vec4(fs_Col.rgb * lightIntensity, 1.0), 0.0, 1.0);
 	
-	//compute blur 
 	float unitx = 1.0 / (u_Dimensions.x);
   float unity = 1.0 / (u_Dimensions.y);
+	float uvx = 0.5 * (fs_Pos.x + 1.0);
+  float uvy = 0.5 * (fs_Pos.y + 1.0);
+
 	vec4 avg = vec4(0.0);
 	for(int y = -4; y <= 4; y++){
 			for(int x = -4; x <= 4; x++){
-					// vec2 uv = vec2(fs_UV.x + unitx * x, fs_UV.y + unity * y);
-					// avg += texture(u_RenderedTexture, uv) * weights[ (y+4) + 9 * (x+4) ];
+					vec2 uv = vec2(uvx + unitx * float(x), uvy + unity * float(y));
+					avg += texture(u_RenderedTexture, uv) * weights[ (y+4) + 9 * (x+4) ];
 					avg += color * weights[ (y+4) + 9 * (x+4) ];
 			}
 	}

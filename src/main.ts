@@ -17,10 +17,10 @@ import Mesh from './geometry/Mesh';
 // Define an object with application parameters and button callbacks
 // This will be referred to by dat.GUI's functions that add GUI elements.
 const controls = {
-  iterations: 5,
+  iterations: 3,
   angle: 25,
-  flower_color: [255, 170, 170],
-  flower_scale: 4,
+  flower_color: [255, 50, 50],
+  flower_scale: 2.5,
   speed: 1,
   time: 0,
 };
@@ -30,6 +30,8 @@ let screenQuad: ScreenQuad;
 let cylinder: Mesh;
 let flower: Mesh;
 let base: Mesh;
+let rock: Mesh;
+let rock_front: Mesh;
 
 let time: number = 0.0;
 let changed: boolean = true;
@@ -59,6 +61,42 @@ function backgroundSetup() {
 
   base.setInstanceVBOsTransform(colors, col1s, col2s, col3s, col4s);
   base.setNumInstances(1);
+}
+
+function mountainSetUp() {
+  let colorsArray = [0.2, 0.35, 0.25, 1.0];
+
+  let col1sArray = [5, 0, 0, 0];
+  let col2sArray = [0, 5, 0, 0];
+  let col3sArray = [0, 0, 5, 0];
+  let col4sArray = [-70, -5, 0, 1];
+
+  let colors: Float32Array = new Float32Array(colorsArray);
+  let col1s: Float32Array = new Float32Array(col1sArray);
+  let col2s: Float32Array = new Float32Array(col2sArray);
+  let col3s: Float32Array = new Float32Array(col3sArray);
+  let col4s: Float32Array = new Float32Array(col4sArray);
+
+  rock.setInstanceVBOsTransform(colors, col1s, col2s, col3s, col4s);
+  rock.setNumInstances(1);
+}
+
+function rockSetUp() {
+  let colorsArray = [0.2, 0.25, 0.25, 1.0];
+
+  let col1sArray = [2, 0, 0, 0];
+  let col2sArray = [0, 2, 0, 0];
+  let col3sArray = [0, 0, 2, 0];
+  let col4sArray = [0, -45, 0, 1];
+
+  let colors: Float32Array = new Float32Array(colorsArray);
+  let col1s: Float32Array = new Float32Array(col1sArray);
+  let col2s: Float32Array = new Float32Array(col2sArray);
+  let col3s: Float32Array = new Float32Array(col3sArray);
+  let col4s: Float32Array = new Float32Array(col4sArray);
+
+  rock_front.setInstanceVBOsTransform(colors, col1s, col2s, col3s, col4s);
+  rock_front.setNumInstances(1);
 }
 
 function lsystermSetup() {
@@ -97,20 +135,29 @@ function loadScene() {
   screenQuad.create();
 
   //load from obj
-  let cylinderObj: string = readTextFile('https://raw.githubusercontent.com/ameliapqy/hw04-l-systems/master/src/obj/cylinder.obj');
+  let cylinderObj: string = readTextFile('./src/obj/cylinder.obj');
   cylinder = new Mesh(cylinderObj, vec3.fromValues(0, 0, 0));
   cylinder.create();
 
   let baseObj: string = readTextFile('https://raw.githubusercontent.com/ameliapqy/hw04-l-systems/master/src/obj/base.obj');
   base = new Mesh(baseObj, vec3.fromValues(0, 0, 0));
   base.create();
-
-  let flowerObj: string = readTextFile('https://raw.githubusercontent.com/ameliapqy/hw04-l-systems/master/src/obj/flower.obj');
+  
+  let flowerObj: string = readTextFile('./src/obj/flower.obj');
   flower = new Mesh(flowerObj, vec3.fromValues(0, 0, 0));
   flower.create();
 
-  backgroundSetup();
+  let rockObj: string = readTextFile('./src/obj/rock.obj');
+  rock = new Mesh(rockObj, vec3.fromValues(0, 0, 0));
+  rock.create();
 
+  let rock_frontObj: string = readTextFile('./src/obj/rock_front.obj');
+  rock_front = new Mesh(rock_frontObj, vec3.fromValues(0, 0, 0));
+  rock_front.create();
+
+  backgroundSetup();
+  mountainSetUp();
+  rockSetUp();
   //lsystem
   lsystermSetup();
 }
@@ -219,9 +266,14 @@ function main() {
     new Shader(gl.FRAGMENT_SHADER, require('./shaders/paper-frag.glsl')),
   ]);
 
-  const blurred = new ShaderProgram([
-    new Shader(gl.VERTEX_SHADER, require('./shaders/instanced-vert.glsl')),
-    new Shader(gl.FRAGMENT_SHADER, require('./shaders/blurred-frag.glsl')),
+  const mountainShader = new ShaderProgram([
+    new Shader(gl.VERTEX_SHADER, require('./shaders/mountain-vert.glsl')),
+    new Shader(gl.FRAGMENT_SHADER, require('./shaders/mountain-frag.glsl')),
+  ]);
+
+  const rockShader = new ShaderProgram([
+    new Shader(gl.VERTEX_SHADER, require('./shaders/rock-vert.glsl')),
+    new Shader(gl.FRAGMENT_SHADER, require('./shaders/rock-frag.glsl')),
   ]);
 
   // This function will be called every frame
@@ -234,12 +286,15 @@ function main() {
     controls.time = time;
     gl.viewport(0, 0, window.innerWidth, window.innerHeight);
     renderer.clear();
+  
     //set LSystem Up
     lsystermSetup();
     renderer.render(camera, paper, [screenQuad]);
     // renderer.render(camera, flat, [screenQuad]);
-    renderer.render(camera, instancedShader, [cylinder, flower, base]);
-    renderer.render(camera, blurred, [screenQuad]);
+    renderer.render(camera, instancedShader, [cylinder, flower]);
+    renderer.render(camera, mountainShader, [rock]);
+    renderer.render(camera, rockShader, [rock_front]);
+    //renderer.render(camera, blurred, [screenQuad]);
     stats.end();
     // Tell the browser to call `tick` again whenever it renders a new frame
     requestAnimationFrame(tick);

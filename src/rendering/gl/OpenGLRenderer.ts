@@ -38,6 +38,7 @@ class OpenGLRenderer {
     prog.setModelMatrix(model);
     prog.setViewProjMatrix(viewProj);
     prog.setCameraAxes(axes);
+    prog.setCameraPos(camera.position);
 
     for (let drawable of drawables) {
       prog.draw(drawable);

@@ -369,7 +369,7 @@ function main() {
     renderer.render(camera, blurShader, [screenQuad]);
     */
 
-    // renderer.render(camera, flat, [screenQuad]);
+    renderer.render(camera, paper, [screenQuad]);
     renderer.render(camera, instancedShader, [cylinder, flower]);
     renderer.render(camera, mountainShader, [rock]);
     renderer.render(camera, rockShader, [rock_front]);

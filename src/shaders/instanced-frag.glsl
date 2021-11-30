@@ -12,6 +12,8 @@ in vec4 vs_Transform1;
 uniform vec3 u_CameraPos;
 uniform mat3 u_CameraAxes;
 uniform vec2 u_Dimensions;
+uniform sampler2D u_RenderedTexture;
+
 float rand3D(vec3 p) {
     return fract(sin(dot(p, vec3(dot(p,vec3(127.1, 311.7, 456.9)),
                           dot(p,vec3(269.5, 183.3, 236.6)),
@@ -75,8 +77,7 @@ float angle(vec4 pos) {
     return angle;
 }
 
-uniform sampler2D u_RenderedTexture;
-uniform vec2 u_Dimensions;
+
 
 void main()
 {

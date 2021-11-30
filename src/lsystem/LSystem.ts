@@ -62,9 +62,9 @@ class LSystem {
         type = 'flowers';
         //add variation to color
         let rand: number = Math.random();
-        let tempCol0: number = flower_color[0]; // + rand * flower_color[0] * 0.5;
-        let tempCol1: number = flower_color[1]; // - rand * flower_color[1] * 0.1;
-        let tempCol2: number = flower_color[2]; // + (rand - 0.3) * flower_color[2] * 0.2;
+        let tempCol0: number = flower_color[0] + rand * flower_color[0] * 0.5;
+        let tempCol1: number = flower_color[1] - rand * flower_color[1] * 0.2;
+        let tempCol2: number = flower_color[2] - (rand - 0.3) * flower_color[2] * 0.3;
         data[type].color.push(tempCol0);
         data[type].color.push(tempCol1);
         data[type].color.push(tempCol2);

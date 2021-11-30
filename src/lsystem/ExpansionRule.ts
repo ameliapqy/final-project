@@ -12,7 +12,6 @@ class ExpansionRule {
     // this.axiom = 'TFFFX';
     this.axiom = 'TX';
     this.grammar = new Map();
-    this.grammar.set('A', this.expandA());
     this.grammar.set('F', this.expandF());
     this.grammar.set('X', this.expandX());
     this.grammar.set('U', this.expandU());
@@ -20,16 +19,12 @@ class ExpansionRule {
   }
 
   expandT() {
-    return '11FF2F2F2+F20';
+    return 'AA11FF2F2F2+F20';
   }
 
   //F = FF
   expandF() {
     return 'F';
-  }
-
-  expandA() {
-    return 'AA[+AA]A[+AA]AA+';
   }
 
   //AA[+AA]A[+AA]AA+
@@ -45,9 +40,9 @@ class ExpansionRule {
 
   expandU() {
     let rand = Math.random();
-    if (rand < 0.9) return 'B+B+';
-    else if (rand < 0.8) return 'B-B-B-';
-    else return '/U';
+    if (rand < 0.9) return 'B+BU+B';
+    else if (rand < 0.8) return 'B-UB-';
+    else return '/U/B';
   }
 
   expandAxiom(iter: number) {

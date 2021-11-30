@@ -174,7 +174,7 @@ function main() {
   // Add controls to the gui
   const gui = new DAT.GUI();
   gui
-    .add(controls, 'iterations', 1, 6)
+    .add(controls, 'iterations', 1, 10)
     .step(1)
     .onChange(
       function () {
@@ -360,7 +360,7 @@ function main() {
 
     renderer.render(camera, paper, [screenQuad]);
     renderer.render(camera, instancedShader, [cylinder, flower]);
-    // renderer.render(camera, mountainShader, [rock]);
+    renderer.render(camera, mountainShader, [rock]);
     renderer.render(camera, rockShader, [rock_front]);
 
     stats.end();

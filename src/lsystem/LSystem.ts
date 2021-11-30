@@ -58,6 +58,7 @@ class LSystem {
       }
       let transformation: mat4 = currData.transform;
       if (currData.char == 'U' || currData.char == 'B') {
+        let r: number = Math.random();
         type = 'flowers';
         //add variation to color
         let rand: number = Math.random();
@@ -70,9 +71,9 @@ class LSystem {
         data[type].color.push(1);
       } else {
         type = 'trunks';
-        data[type].color.push(0.06);
-        data[type].color.push(0.05);
-        data[type].color.push(0.05);
+        data[type].color.push(0.1);
+        data[type].color.push(0.1);
+        data[type].color.push(0.1);
         // data[type].color.push(flower_color[0]);
         // data[type].color.push(flower_color[1]);
         // data[type].color.push(flower_color[2]);

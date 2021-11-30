@@ -35,6 +35,7 @@ class ShaderProgram {
   unifModelInvTr: WebGLUniformLocation;
   unifViewProj: WebGLUniformLocation;
   unifCameraAxes: WebGLUniformLocation;
+  unifCameraPos: WebGLUniformLocation;
   unifTime: WebGLUniformLocation;
   unifRef: WebGLUniformLocation;
   unifEye: WebGLUniformLocation;
@@ -67,10 +68,12 @@ class ShaderProgram {
     this.unifModelInvTr = gl.getUniformLocation(this.prog, 'u_ModelInvTr');
     this.unifViewProj = gl.getUniformLocation(this.prog, 'u_ViewProj');
     this.unifCameraAxes = gl.getUniformLocation(this.prog, 'u_CameraAxes');
+    this.unifCameraPos = gl.getUniformLocation(this.prog, 'u_CameraPos');
     this.unifTime = gl.getUniformLocation(this.prog, 'u_Time');
     this.unifEye = gl.getUniformLocation(this.prog, 'u_Eye');
     this.unifRef = gl.getUniformLocation(this.prog, 'u_Ref');
     this.unifUp = gl.getUniformLocation(this.prog, 'u_Up');
+    this.unifDimensions = gl.getUniformLocation(this.prog, 'u_Dimensions');
 
     this.unifSampler2D = gl.getUniformLocation(this.prog, 'u_RenderedTexture');
   }
@@ -127,6 +130,13 @@ class ShaderProgram {
     this.use();
     if (this.unifCameraAxes !== -1) {
       gl.uniformMatrix3fv(this.unifCameraAxes, false, axes);
+    }
+  }
+
+  setCameraPos(pos: vec3) {
+    this.use();
+    if (this.unifCameraPos !== -1) {
+      gl.uniformMatrix3fv(this.unifCameraPos, false, pos);
     }
   }
 

@@ -18,7 +18,7 @@ class ExpansionRule {
   }
 
   expandT() {
-    return '11T0T0';
+    return 'T';
   }
 
   //F = FF
@@ -29,13 +29,13 @@ class ExpansionRule {
   //X = +F+F-[[X]+X]+F[+FX]-X
   //'FF+[[FXU]+XU]+FF[+FXU]-XUU';
   expandX() {
-    return 'FFF-[[FXU]+XU]+FF[+FXU]-XUU';
+    return 'FFF-[[FXU]+X]+FF[+FXU]-XU';
   }
 
   expandU() {
     let rand = Math.random();
-    if (rand < 0.9) return 'B///B/';
-    else if (rand < 0.8) return '//B/B';
+    if (rand < 0.9) return 'B//B';
+    else if (rand < 0.8) return 'B///B';
     else return '/U';
   }
 

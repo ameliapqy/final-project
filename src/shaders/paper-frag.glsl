@@ -5,15 +5,8 @@ uniform vec3 u_Eye, u_Ref, u_Up;
 uniform vec2 u_Dimensions;
 uniform float u_Time;
 
-in vec2 fs_Pos;
+in vec4 fs_Pos;
 out vec4 out_Col;
-
-// void main()
-// {
-
-//   out_Col = vec4(1);
-// }
-
 
 float rand3D(vec3 p) {
     return fract(sin(dot(p, vec3(dot(p,vec3(127.1, 311.7, 456.9)),
@@ -70,10 +63,12 @@ float fbm(float x, float y, float z) {
     return total;
 }
 
-
-void main() {
+void main()
+{
+  vec4 color1 = vec4(235.0, 222.0, 199.0, 255.0) / 255.0;
   float n = 1.0 - fbm(fs_Pos.x, fs_Pos.y, fs_Pos.x);
   n = fbm(n,n,n);
-  out_Col = vec4(n, n, n, 1.0) + vec4(0.65,0.65,0.7,1.0);
+  out_Col += vec4(n, n, n, 1.0) + vec4(0.65,0.65,0.7,1.0);
   out_Col = clamp(out_Col, vec4(0), vec4(1));
+  out_Col = mix(color1, out_Col, 0.8);
 }

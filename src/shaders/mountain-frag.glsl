@@ -75,7 +75,7 @@ void main()
     vec4 color = (fs_Col + noise) * (fs_Pos.y + 0.75) * 0.5 * cloud;
     vec4 paper_color = vec4(235.0, 222.0, 199.0, 255.0) / 255.0;
 
-	out_Col = color.a * color + (1.0 - color.a) * paper_color;
+	out_Col = 0.9 * color.a * color + (1.0 - color.a) * paper_color;
     if(color.a < 0.2) {
         out_Col = paper_color;
     }

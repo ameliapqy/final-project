@@ -49,9 +49,9 @@ function backgroundSetup() {
   let colorsArray = [0.5, 0.55, 0.6, 1.0];
 
   let col1sArray = [50, 0, 0, 0];
-  let col2sArray = [0, 10, 0, 0];
+  let col2sArray = [0, 50, 0, 0];
   let col3sArray = [0, 0, 50, 0];
-  let col4sArray = [0, -35, 0, 1];
+  let col4sArray = [0, -40, 0, 1];
 
   let colors: Float32Array = new Float32Array(colorsArray);
   let col1s: Float32Array = new Float32Array(col1sArray);
@@ -290,7 +290,7 @@ function main() {
     //set LSystem Up
     lsystermSetup();
     renderer.render(camera, paper, [screenQuad]);
-    // renderer.render(camera, flat, [screenQuad]);
+    //renderer.render(camera, flat, [screenQuad]);
     renderer.render(camera, instancedShader, [cylinder, flower]);
     renderer.render(camera, mountainShader, [rock]);
     renderer.render(camera, rockShader, [rock_front]);

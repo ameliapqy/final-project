@@ -142,7 +142,7 @@ function loadScene() {
   let baseObj: string = readTextFile('https://raw.githubusercontent.com/ameliapqy/hw04-l-systems/master/src/obj/base.obj');
   base = new Mesh(baseObj, vec3.fromValues(0, 0, 0));
   base.create();
-  
+
   let flowerObj: string = readTextFile('./src/obj/flower.obj');
   flower = new Mesh(flowerObj, vec3.fromValues(0, 0, 0));
   flower.create();
@@ -286,15 +286,15 @@ function main() {
     controls.time = time;
     gl.viewport(0, 0, window.innerWidth, window.innerHeight);
     renderer.clear();
-  
+
     //set LSystem Up
     lsystermSetup();
     renderer.render(camera, paper, [screenQuad]);
-    //renderer.render(camera, flat, [screenQuad]);
+    // renderer.render(camera, flat, [screenQuad]);
     renderer.render(camera, instancedShader, [cylinder, flower]);
     renderer.render(camera, mountainShader, [rock]);
     renderer.render(camera, rockShader, [rock_front]);
-    //renderer.render(camera, blurred, [screenQuad]);
+    // renderer.render(camera, blurred, [screenQuad]);
     stats.end();
     // Tell the browser to call `tick` again whenever it renders a new frame
     requestAnimationFrame(tick);

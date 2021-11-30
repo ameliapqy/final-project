@@ -97,7 +97,7 @@ class Turtle {
 
   scaleUp() {
     let amt = 1.2;
-    let amt2 = 0.7;
+    let amt2 = 0.8;
     this.scale[0] *= amt;
     this.scale[1] *= amt2;
     this.scale[2] *= amt;

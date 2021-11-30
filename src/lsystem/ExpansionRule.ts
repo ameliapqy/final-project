@@ -20,7 +20,7 @@ class ExpansionRule {
   }
 
   expandT() {
-    return '11F2F2F2+F20';
+    return '11FF2F2F2+F20';
   }
 
   //F = FF
@@ -37,15 +37,17 @@ class ExpansionRule {
   //'FFF-[[FXU]+X]+FF[+FXU]-XU';
   //'FF+[+FF//U]F[+FFU]FF+'
   //'X-[+FX]+F[+FX]-X'
+  //FFF-[[FXU]+X]+FF[+FXU]-XU
+  //'X-[+FXU]+FU{+FXU}';
   expandX() {
-    return 'FFF-[[FXU]+X]+FF[+FXU]-XU+U'; //'X-[+FXU]+FU{+FXU}';
+    return 'FFF-[{FU}+X]+FF{+FU}-U+U';
   }
 
   expandU() {
     let rand = Math.random();
-    if (rand < 0.9) return 'B++B--';
-    else if (rand < 0.8) return 'B---B-B++++';
-    else return '+U-';
+    if (rand < 0.9) return 'B+B+';
+    else if (rand < 0.8) return 'B-B-B-';
+    else return '/U';
   }
 
   expandAxiom(iter: number) {

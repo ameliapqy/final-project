@@ -48,8 +48,8 @@ class DrawingRule {
   presave() {
     let oldt = this.turtle.copy();
     this.turtleStack.push(oldt);
-    let amt = 0.95;
-    let amt2 = 0.95; //0.995;
+    let amt = 0.9;
+    let amt2 = 1.0; //0.995;
     this.turtle.scale[0] *= amt;
     this.turtle.scale[1] *= amt2;
     this.turtle.scale[2] *= amt;

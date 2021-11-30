@@ -9,8 +9,10 @@ class ExpansionRule {
   controls: any;
 
   constructor(controls: any) {
-    this.axiom = 'TAAAX5';
+    // this.axiom = 'TFFFX';
+    this.axiom = 'TX';
     this.grammar = new Map();
+    this.grammar.set('A', this.expandA());
     this.grammar.set('F', this.expandF());
     this.grammar.set('X', this.expandX());
     this.grammar.set('U', this.expandU());
@@ -18,7 +20,7 @@ class ExpansionRule {
   }
 
   expandT() {
-    return 'T';
+    return '11F2F2F2+F20';
   }
 
   //F = FF
@@ -26,17 +28,24 @@ class ExpansionRule {
     return 'F';
   }
 
-  //X = +F+F-[[X]+X]+F[+FX]-X
-  //'FF+[[FXU]+XU]+FF[+FXU]-XUU';
+  expandA() {
+    return 'AA[+AA]A[+AA]AA+';
+  }
+
+  //AA[+AA]A[+AA]AA+
+
+  //'FFF-[[FXU]+X]+FF[+FXU]-XU';
+  //'FF+[+FF//U]F[+FFU]FF+'
+  //'X-[+FX]+F[+FX]-X'
   expandX() {
-    return 'FFF-[[FXU]+X]+FF[+FXU]-XU';
+    return 'FFF-[[FXU]+X]+FF[+FXU]-XU+U'; //'X-[+FXU]+FU{+FXU}';
   }
 
   expandU() {
     let rand = Math.random();
-    if (rand < 0.9) return 'B//B';
-    else if (rand < 0.8) return 'B///B';
-    else return '/U';
+    if (rand < 0.9) return 'B++B--';
+    else if (rand < 0.8) return 'B---B-B++++';
+    else return '+U-';
   }
 
   expandAxiom(iter: number) {

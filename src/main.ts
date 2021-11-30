@@ -17,8 +17,8 @@ import Mesh from './geometry/Mesh';
 const controls = {
   iterations: 3,
   angle: 25,
-  flower_color: [240, 90, 100],
-  flower_scale: 2,
+  flower_color: [255, 90, 100],
+  flower_scale: 8,
   speed: 1,
   time: 0,
 };
@@ -277,17 +277,6 @@ function main() {
     // gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
   }
 
-  function unbindTextures(texture: WebGLTexture, fb: WebGLFramebuffer, rb: WebGLRenderbuffer) {
-    //unbind render buffers
-    gl.bindTexture(gl.TEXTURE_2D, null);
-    gl.bindFramebuffer(gl.FRAMEBUFFER, null);
-    gl.bindRenderbuffer(gl.RENDERBUFFER, null);
-
-    gl.deleteTexture(texture);
-    gl.deleteFramebuffer(fb);
-    gl.deleteRenderbuffer(rb);
-  }
-
   // Initial call to load scene
   loadScene();
 
@@ -371,9 +360,9 @@ function main() {
 
     renderer.render(camera, paper, [screenQuad]);
     renderer.render(camera, instancedShader, [cylinder, flower]);
-    renderer.render(camera, mountainShader, [rock]);
+    // renderer.render(camera, mountainShader, [rock]);
     renderer.render(camera, rockShader, [rock_front]);
-    // renderer.render(camera, blurred, [screenQuad]);
+
     stats.end();
     // Tell the browser to call `tick` again whenever it renders a new frame
     requestAnimationFrame(tick);

@@ -17,7 +17,7 @@ class DrawingRule {
       vec3.fromValues(0, 1, 0), //up
       vec3.fromValues(1, 0, 0), //right
       vec3.fromValues(0, 2.5, 0), //forward
-      vec3.fromValues(1, 1, 1), //scale
+      vec3.fromValues(4, 4, 4), //scale
       quat.fromValues(0, 0, 0, 1), //quat
       3, //recursion depth
       controls //control
@@ -26,31 +26,48 @@ class DrawingRule {
     //set up drawing rules
     this.rules.set('[', this.presave.bind(this));
     this.rules.set(']', this.save.bind(this));
+    this.rules.set('{', this.presaveNoChange.bind(this));
+    this.rules.set('}', this.save.bind(this));
 
     this.rules.set('F', this.turtle.moveForward.bind(this.turtle));
     this.rules.set('X', this.turtle.moveForward.bind(this.turtle));
     this.rules.set('U', this.turtle.moveForwardU.bind(this.turtle));
-    this.rules.set('T', this.turtle.moveForward.bind(this.turtle));
+    this.rules.set('T', this.turtle.moveForwardT.bind(this.turtle));
     this.rules.set('B', this.turtle.addFlower.bind(this.turtle));
     this.rules.set('A', this.turtle.moveBackward.bind(this.turtle));
 
-    this.rules.set('+', this.turtle.rotatePos.bind(this.turtle));
+    this.rules.set('+', this.turtle.rotatePos2.bind(this.turtle));
+    this.rules.set('-', this.turtle.rotateNeg2.bind(this.turtle));
     this.rules.set('/', this.turtle.rotateF.bind(this.turtle));
-    this.rules.set('-', this.turtle.rotateNeg.bind(this.turtle));
     this.rules.set('1', this.turtle.scaleUp.bind(this.turtle));
-    this.rules.set('0', this.turtle.scaleDown.bind(this.turtle));
+    this.rules.set('2', this.turtle.scaleDown.bind(this.turtle));
+    this.rules.set('0', this.turtle.scaleDefault.bind(this.turtle));
   }
 
   //[
   presave() {
     let oldt = this.turtle.copy();
     this.turtleStack.push(oldt);
-    let amt = 0.995;
-    let amt2 = 0.99;
+    let amt = 0.95;
+    let amt2 = 0.95; //0.995;
     this.turtle.scale[0] *= amt;
+    this.turtle.scale[1] *= amt2;
     this.turtle.scale[2] *= amt;
     this.turtle.scale[0] = Math.max(this.turtle.scale[0], 0.25);
+    this.turtle.scale[1] = Math.max(this.turtle.scale[1], 0.5);
     this.turtle.scale[2] = Math.max(this.turtle.scale[2], 0.25);
+
+    this.turtle.stepSize[0] *= amt;
+    this.turtle.stepSize[1] *= amt2;
+    this.turtle.stepSize[2] *= amt;
+    this.turtle.stepSize[0] = Math.max(this.turtle.stepSize[0], 0.25);
+    this.turtle.stepSize[1] = Math.max(this.turtle.stepSize[1], 0.5);
+    this.turtle.stepSize[2] = Math.max(this.turtle.stepSize[2], 0.25);
+  }
+
+  presaveNoChange() {
+    let oldt = this.turtle.copy();
+    this.turtleStack.push(oldt);
   }
 
   //]

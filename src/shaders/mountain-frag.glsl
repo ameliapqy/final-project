@@ -79,6 +79,7 @@ void main()
     if(color.a < 0.2) {
         out_Col = paper_color;
     }
+    out_Col = color;
 }
 
 

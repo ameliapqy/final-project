@@ -30,6 +30,7 @@ let flower: Mesh;
 let base: Mesh;
 let rock: Mesh;
 let rock_front: Mesh;
+let canoe: Mesh;
 
 let time: number = 0.0;
 let changed: boolean = true;
@@ -70,7 +71,7 @@ function mountainSetUp() {
   let col1sArray = [5, 0, 0, 0];
   let col2sArray = [0, 5, 0, 0];
   let col3sArray = [0, 0, 5, 0];
-  let col4sArray = [-70, -5, 0, 1];
+  let col4sArray = [50, -5, -70, 1];
 
   let colors: Float32Array = new Float32Array(colorsArray);
   let col1s: Float32Array = new Float32Array(col1sArray);
@@ -88,7 +89,7 @@ function rockSetUp() {
   let col1sArray = [2, 0, 0, 0];
   let col2sArray = [0, 2, 0, 0];
   let col3sArray = [0, 0, 2, 0];
-  let col4sArray = [0, -45, 0, 1];
+  let col4sArray = [-10, -45, 0, 1];
 
   let colors: Float32Array = new Float32Array(colorsArray);
   let col1s: Float32Array = new Float32Array(col1sArray);
@@ -98,6 +99,24 @@ function rockSetUp() {
 
   rock_front.setInstanceVBOsTransform(colors, col1s, col2s, col3s, col4s);
   rock_front.setNumInstances(1);
+}
+
+function canoeSetUp() {
+  let colorsArray = [0.5, 0.5, 0.25, 1.0];
+
+  let col1sArray = [2, 0, 0, 0];
+  let col2sArray = [0, 2, 0, 0];
+  let col3sArray = [0, 0, 2, 0];
+  let col4sArray = [-50, -20, -10, 1];
+
+  let colors: Float32Array = new Float32Array(colorsArray);
+  let col1s: Float32Array = new Float32Array(col1sArray);
+  let col2s: Float32Array = new Float32Array(col2sArray);
+  let col3s: Float32Array = new Float32Array(col3sArray);
+  let col4s: Float32Array = new Float32Array(col4sArray);
+
+  canoe.setInstanceVBOsTransform(colors, col1s, col2s, col3s, col4s);
+  canoe.setNumInstances(1);
 }
 
 function lsystermSetup() {
@@ -147,6 +166,10 @@ function loadScene() {
   flower = new Mesh(flowerObj, vec3.fromValues(0, 0, 0));
   flower.create();
 
+  let canoeObj: string = readTextFile('./src/obj/boat.obj');
+  canoe = new Mesh(canoeObj, vec3.fromValues(0, 0, 0));
+  canoe.create();
+
   let rockObj: string = readTextFile('./src/obj/rock.obj');
   rock = new Mesh(rockObj, vec3.fromValues(0, 0, 0));
   rock.create();
@@ -158,6 +181,7 @@ function loadScene() {
   backgroundSetup();
   mountainSetUp();
   rockSetUp();
+  canoeSetUp();
   //lsystem
   lsystermSetup();
 }
@@ -255,7 +279,7 @@ function main() {
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-    gl.bindTexture(gl.TEXTURE_2D, null);
+    // gl.bindTexture(gl.TEXTURE_2D, null);
     //attach texture to frame buffer
     gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, texture, 0);
 
@@ -263,7 +287,7 @@ function main() {
     gl.bindRenderbuffer(gl.RENDERBUFFER, rb);
     //creating a depth and stencil renderbuffer object
     gl.renderbufferStorage(gl.RENDERBUFFER, gl.DEPTH_COMPONENT16, window.innerWidth, window.innerHeight);
-    gl.bindRenderbuffer(gl.RENDERBUFFER, null);
+    // gl.bindRenderbuffer(gl.RENDERBUFFER, null);
     //attach renderbuffer ibject
     gl.framebufferRenderbuffer(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.RENDERBUFFER, rb);
 
@@ -271,7 +295,7 @@ function main() {
       console.log('frame buffer not complete');
     }
     gl.drawBuffers([gl.COLOR_ATTACHMENT0]);
-    gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+    // gl.bindFramebuffer(gl.FRAMEBUFFER, null);
 
     // gl.viewport(0, 0, window.innerWidth, window.innerHeight);
     // gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
@@ -280,7 +304,7 @@ function main() {
   // Initial call to load scene
   loadScene();
 
-  const camera = new Camera(vec3.fromValues(100, 10, 50), vec3.fromValues(0, 10, 0));
+  const camera = new Camera(vec3.fromValues(0, 10, 100), vec3.fromValues(0, 10, 0));
 
   const renderer = new OpenGLRenderer(canvas);
   renderer.setClearColor(0.2, 0.2, 0.2, 1);
@@ -338,29 +362,28 @@ function main() {
     lsystermSetup();
 
     //scenes set up
-    /*
-    //1. Paper Pass
-    bindTextures(paperTexture, paperfb, paperrb);
-    renderer.render(camera, paper, [screenQuad]);
 
-    //2. Scene Pass
-    bindTextures(sceneTexture, scenefb, scenerb); //make the scene disappear...?
-    gl.activeTexture(gl.TEXTURE1);
-    gl.bindTexture(gl.TEXTURE_2D, paperTexture);
-    flat.setTex1();
-    renderer.render(camera, instancedShader, [cylinder, flower, base]);
+    // //1. Paper Pass
+    // bindTextures(paperTexture, paperfb, paperrb);
+    // renderer.render(camera, paper, [screenQuad]);
 
-    //3. Blur Pass
-    bindTextures(blurredTexture, blurfb, blurrb);
-    gl.activeTexture(gl.TEXTURE1);
-    gl.bindTexture(gl.TEXTURE_2D, sceneTexture);
-    blurShader.setTex1();
-    renderer.render(camera, blurShader, [screenQuad]);
-    */
+    // //2. Scene Pass
+    // bindTextures(sceneTexture, scenefb, scenerb); //make the scene disappear...?
+    // gl.activeTexture(gl.TEXTURE1);
+    // gl.bindTexture(gl.TEXTURE_2D, paperTexture);
+    // flat.setTex1();
+    // renderer.render(camera, instancedShader, [cylinder, flower]);
+
+    // //3. Blur Pass
+    // bindTextures(blurredTexture, blurfb, blurrb);
+    // gl.activeTexture(gl.TEXTURE1);
+    // gl.bindTexture(gl.TEXTURE_2D, sceneTexture);
+    // blurShader.setTex1();
+    // renderer.render(camera, blurShader, [screenQuad]);
 
     renderer.render(camera, paper, [screenQuad]);
     renderer.render(camera, instancedShader, [cylinder, flower]);
-    renderer.render(camera, mountainShader, [rock]);
+    renderer.render(camera, mountainShader, [rock, canoe]);
     renderer.render(camera, rockShader, [rock_front]);
 
     stats.end();

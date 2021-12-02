@@ -19,7 +19,7 @@ class ExpansionRule {
   }
 
   expandT() {
-    return 'AA11FF2F2F2+F20';
+    return 'AAA11FF2F2F2+F20';
   }
 
   //F = FF

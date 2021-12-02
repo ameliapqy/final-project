@@ -307,9 +307,10 @@ function main() {
   const camera = new Camera(vec3.fromValues(0, 10, 100), vec3.fromValues(0, 10, 0));
 
   const renderer = new OpenGLRenderer(canvas);
-  renderer.setClearColor(0.2, 0.2, 0.2, 1);
+  // renderer.setClearColor(0.2, 0.2, 0.2, 1);
+  // uncoment this part??
   // gl.enable(gl.BLEND);
-  // gl.blendFunc(gl.ONE, gl.ONE); // Additive blending
+  gl.blendFunc(gl.ONE, gl.ONE); // Additive blending
   gl.enable(gl.DEPTH_TEST);
 
   const instancedShader = new ShaderProgram([

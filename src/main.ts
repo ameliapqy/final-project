@@ -366,8 +366,8 @@ function main() {
     //scenes set up
 
     // //1. Paper Pass
-    // bindTextures(paperTexture, paperfb, paperrb);
-    // renderer.render(camera, paper, [screenQuad]);
+    bindTextures(paperTexture, paperfb, paperrb);
+    renderer.render(camera, paper, [screenQuad]);
 
     // //2. Scene Pass
     // bindTextures(sceneTexture, scenefb, scenerb); //make the scene disappear...?

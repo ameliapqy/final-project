@@ -102,12 +102,12 @@ function rockSetUp() {
 }
 
 function canoeSetUp() {
-  let colorsArray = [0.5, 0.5, 0.25, 1.0];
+  let colorsArray = [0.65, 0.5, 0.25, 1.0];
 
-  let col1sArray = [2, 0, 0, 0];
-  let col2sArray = [0, 2, 0, 0];
-  let col3sArray = [0, 0, 2, 0];
-  let col4sArray = [-50, -20, -10, 1];
+  let col1sArray = [6, 0, 0, 0];
+  let col2sArray = [0, 6, 0, 0];
+  let col3sArray = [0, 0, 6, 0];
+  let col4sArray = [-100, -50, -40, 1];
 
   let colors: Float32Array = new Float32Array(colorsArray);
   let col1s: Float32Array = new Float32Array(col1sArray);
@@ -166,7 +166,7 @@ function loadScene() {
   flower = new Mesh(flowerObj, vec3.fromValues(0, 0, 0));
   flower.create();
 
-  let canoeObj: string = readTextFile('./src/obj/boat.obj');
+  let canoeObj: string = readTextFile('./src/obj/canoe.obj');
   canoe = new Mesh(canoeObj, vec3.fromValues(0, 0, 0));
   canoe.create();
 
@@ -270,7 +270,7 @@ function main() {
 
   function bindTextures(texture: WebGLTexture, fb: WebGLFramebuffer, rb: WebGLRenderbuffer) {
     //frame buffer
-    gl.bindFramebuffer(gl.FRAMEBUFFER, fb);
+    // gl.bindFramebuffer(gl.FRAMEBUFFER, fb); //this caused the scene to be all black
 
     //texture
     gl.bindTexture(gl.TEXTURE_2D, texture);
@@ -366,8 +366,8 @@ function main() {
     //scenes set up
 
     // //1. Paper Pass
-    bindTextures(paperTexture, paperfb, paperrb);
-    renderer.render(camera, paper, [screenQuad]);
+    // bindTextures(paperTexture, paperfb, paperrb);
+    // renderer.render(camera, paper, [screenQuad]);
 
     // //2. Scene Pass
     // bindTextures(sceneTexture, scenefb, scenerb); //make the scene disappear...?

@@ -48,17 +48,20 @@ float interpNoise3D(float x, float y, float z) {
 }
 
 float fbm(float x, float y, float z) {
+    float time = float(u_Time);
+
     float total = 0.0;
     float persistence = 0.5;
     int octaves = 8;
+    float shift = 0.0;//0.5*cos(time);
 
     for(int i = 1; i <= octaves; i++) {
         float freq = pow(2.0, float(i));
         float amp = pow(persistence, float(i));
 
-        total += interpNoise3D(x * freq,
-                               y * freq,
-                               z * freq) * amp;
+        total += interpNoise3D(x * freq + shift,
+                               y * freq + shift,
+                               z * freq + shift) * amp;
     }
     return total;
 }
@@ -67,6 +70,7 @@ void main()
 {
   vec4 color1 = vec4(235.0, 222.0, 199.0, 255.0) / 255.0;
   float n = 1.0 - fbm(fs_Pos.x, fs_Pos.y, fs_Pos.x);
+//   float n = 1.0 - fbm(fs_Pos.x + 0.1 * sin(0.005 * float(u_Time)), fs_Pos.y + 0.1 * sin(0.005 * float(u_Time)), sin(0.005 * float(u_Time)) * fs_Pos.x);
   n = fbm(n,n,n);
   out_Col += vec4(n, n, n, 1.0) + vec4(0.65,0.65,0.7,1.0);
   out_Col = clamp(out_Col, vec4(0), vec4(1));

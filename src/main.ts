@@ -308,16 +308,10 @@ function main() {
 
   const renderer = new OpenGLRenderer(canvas);
 
-  // renderer.setClearColor(0.2, 0.2, 0.2, 1);
-  // uncoment this part??
-  // gl.enable(gl.DEPTH_TEST);
-  // gl.enable(gl.BLEND);
-  // gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
-  // gl.enable(gl.CULL_FACE);
-  // gl.frontFace(gl.CW);
+  renderer.setClearColor(0.2, 0.2, 0.2, 1);
+  // adding transparency
   gl.enable(gl.BLEND);
   gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
-  // gl.blendFunc(gl.ONE, gl.ONE); // Additive blending
   gl.enable(gl.DEPTH_TEST);
 
   const instancedShader = new ShaderProgram([

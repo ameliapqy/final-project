@@ -122,10 +122,12 @@ function canoeSetUp() {
 function birdSetUp() {
   let colorsArray = [0.1, 0.1, 0.1, 1.0, 0.1, 0.1, 0.1, 1.0];
 
-  let col1sArray = [8, 0, 0, 0, 10, 0, 0, 0];
-  let col2sArray = [0, 8, 0, 0, 0, 10, 0, 0];
-  let col3sArray = [0, 0, 8, 0, 0, 0, 10, 0];
+  let col1sArray = [8, 0, 0, 0, 15, 0, 0, 0];
+  let col2sArray = [0, 8, 0, 0, 0, 15, 0, 0];
+  let col3sArray = [0, 0, 8, 0, 0, 0, 15, 0];
   let col4sArray = [30, 80, -50, 1, 20, 70, -40, 1];
+
+
 
   let colors: Float32Array = new Float32Array(colorsArray);
   let col1s: Float32Array = new Float32Array(col1sArray);
@@ -362,9 +364,19 @@ function main() {
     new Shader(gl.FRAGMENT_SHADER, require('./shaders/mountain-frag.glsl')),
   ]);
 
+  const boatShader = new ShaderProgram([
+    new Shader(gl.VERTEX_SHADER, require('./shaders/boat-vert.glsl')),
+    new Shader(gl.FRAGMENT_SHADER, require('./shaders/mountain-frag.glsl')),
+  ]);
+
   const rockShader = new ShaderProgram([
     new Shader(gl.VERTEX_SHADER, require('./shaders/rock-vert.glsl')),
     new Shader(gl.FRAGMENT_SHADER, require('./shaders/rock-frag.glsl')),
+  ]);
+
+  const birdShader = new ShaderProgram([
+    new Shader(gl.VERTEX_SHADER, require('./shaders/bird-vert.glsl')),
+    new Shader(gl.FRAGMENT_SHADER, require('./shaders/instanced-frag.glsl')),
   ]);
 
   const blurShader = new ShaderProgram([
@@ -403,9 +415,10 @@ function main() {
 
     renderer.render(camera, paper, [screenQuad],time * controls.speed);
     // renderer.render(camera, instancedShader, [cylinder, flower]);
-    renderer.render(camera, mountainShader, [rock, canoe],time * controls.speed);
+    renderer.render(camera, mountainShader, [rock],time * controls.speed);
+    renderer.render(camera, boatShader, [canoe],time * controls.speed);
     // renderer.render(camera, rockShader, [rock_front]);
-    renderer.render(camera, instancedShader, [bird]);
+    renderer.render(camera, birdShader, [bird],time * controls.speed);
     stats.end();
     // Tell the browser to call `tick` again whenever it renders a new frame
     requestAnimationFrame(tick);

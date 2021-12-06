@@ -53,39 +53,53 @@ float interpNoise3D(float x, float y, float z) {
     return i7;
 }
 
-float fbm(vec3 p, float f) {
-    float time = float(u_Time)*0.005;
+float fbm(vec3 p) {
+    float f = 0.8;
+    float time = float(u_Time)*0.01;
     float total = 0.0;
-    float persistence = 0.3;
+    float persistence = 0.2;
     int octaves = 2;
 
-    float shift = sin(time)*rand3D(p);
+    float shift = time;
+    float shift2 = 0.0;
 
     for(int i = 1; i <= octaves; i++) {
         float freq = pow(f, float(i));
         float amp = pow(persistence, float(i));
 
-        total += interpNoise3D(p.x * freq+ shift,
-                               p.y * freq+ shift,
-                               p.z * freq+ shift) * amp;
+        total += interpNoise3D(p.x * freq + shift2,
+                               p.y * freq - shift,
+                               p.z * freq + shift2) * amp;
     }
     return total;
 }
 
 void main()
 {
-	float n = mix(mix(fbm(fs_Pos.xyz, 2.0), fbm(fs_Pos.yzx, 2.0), 0.5), fbm(fs_Pos.yxz, 2.0), 0.5);
+	float n = mix(mix(fbm(fs_Pos.xyz), fbm(fs_Pos.yzx), 0.5), fbm(fs_Pos.yxz), 0.5);
     vec4 noise = vec4(n, n, n, 1.0);
-    float cloud = clamp(mix(mix(fbm(fs_Pos.yxz, 2.0), fbm(fs_Pos.xzy, 2.0), 0.5),fbm(fs_Pos.yzx, 2.0), 0.5), 0.0, 0.5);
+    float cloud = clamp(mix(mix(fbm(fs_Pos.yxz), fbm(fs_Pos.xzy), 0.5),fbm(fs_Pos.yzx), 0.5), 0.0, 0.5);
     //float cloud = clamp(mix(mix(fbm(vec3(n), 5.0), fbm(vec3(n*n), 2.0), 0.5),fbm(vec3(n*n*n), 2.0), 0.5), 0.0, 0.5);
     
-    // vec4 color = (fs_Col + noise) * (fs_Pos.y + 0.75) * 0.5 * cloud;
-    vec4 color1 = (fs_Col + noise) * (fs_Pos.y) * 0.5;
-    // vec4 color2 = clamp(color, vec4(0,0,0,0), fs_Col+noise);
-    vec4 color2 = fs_Col + noise;
-    vec4 color = mix(color1, color2, 0.8);
-    float alpha = color.a * fs_Pos.y * fs_Pos.y * 0.5;
+    vec4 color = (fs_Col + noise) * (fs_Pos.y + 0.75)  * cloud;
+    vec4 color2 = mix(color, fs_Col+noise,0.5);
+    float time = float(u_Time)*0.01;
+    float alpha = color.a * fs_Pos.y * fs_Pos.y * (0.3+(cos(time)*cos(time)));
     out_Col = vec4(color2.rgb, alpha);
+
+//   float n = 1.0 - fbm(fs_Pos.xyz);
+//   // float n = 1.0 - fbm(fs_Pos.x + 0.1 * sin(0.005 * float(u_Time)), fs_Pos.y + 0.1 * sin(0.005 * float(u_Time)), sin(0.005 * float(u_Time)) * fs_Pos.x);
+//   n = fbm(vec3(n,n,n));
+//   out_Col += vec4(n, n, n, 1.0) * 0.5 + vec4(0.65,0.65,0.7,1.0);
+//   out_Col = clamp(out_Col, vec4(0), vec4(1));
+//   out_Col = mix(fs_Col, out_Col, 0.7);
+
+//   //add water
+
+//   float w = fbm(fs_Pos.xyz + vec3(n,n,n) * 0.5);
+//   w = w * fs_Pos.y * 1.5;
+//   w = clamp(w, -1.0, 0.0);
+//   out_Col += vec4(w ,w, w, 1.0);
 }
 
 

@@ -122,16 +122,19 @@ void main()
     vec4 instancedPos = transformation * vs_Pos;
     
     vec4 offset = vec4(0.0);
-    float n = 1.0 - fbm(instancedPos.xyz, 3.0);
+    float n = 1.0 - fbm(instancedPos.xyz, 2.0);
     n = pow(n, 6.0);
  
     //create tremor effect
     offset = transformation * vs_Nor * sin(0.3 * fbm(instancedPos.xyz, 2.0));
     
-    fs_Pos = vs_Pos;
+    float time = sin(u_Time * 0.05)*3.0;
+    fs_Pos = vec4(vs_Pos.x + time, vs_Pos.yzw);
+    // fs_Pos = vs_Pos;
     fs_Nor = transformation * vs_Nor;
     gl_Position = u_ViewProj * (vec4(instancedPos.xyz, 1.0) + offset);
 
+    gl_Position = gl_Position + vec4(time,time/2.0,0.0,0.0);
     ins_Pos = gl_Position;
     fs_Col = getColor(ins_Pos, vs_Col, n);
 }

@@ -107,6 +107,7 @@ vec4 getColor(vec4 pos, vec4 original, float b) {
     
     color = vec3(min(color.r, edge_color.r), min(color.g, edge_color.g), min(color.b, edge_color.b));
     float alpha = 1.0;
+	
     
 	return clamp(vec4(color * lightIntensity, alpha), 0.0, 1.0);
 }
@@ -121,17 +122,22 @@ void main()
     mat4 transformation = mat4(vs_Transform1, vs_Transform2, vs_Transform3, vs_Transform4);
     vec4 instancedPos = transformation * vs_Pos;
     
+    
+
     vec4 offset = vec4(0.0);
-    float n = 1.0 - fbm(instancedPos.xyz, 3.0);
+    float n = 1.0 - fbm(instancedPos.xyz, 2.0);
     n = pow(n, 6.0);
+
  
     //create tremor effect
-    offset = transformation * vs_Nor * sin(0.3 * fbm(instancedPos.xyz, 2.0));
+    offset = 0.5 * transformation * vs_Nor * sin(0.1 * fbm(instancedPos.xyz, 2.0));
     
+
     fs_Pos = vs_Pos;
     fs_Nor = transformation * vs_Nor;
     gl_Position = u_ViewProj * (vec4(instancedPos.xyz, 1.0) + offset);
-
     ins_Pos = gl_Position;
+    float time = float(u_Time) * 0.01;
+    fs_Pos.z = vs_Pos.z + time;
     fs_Col = getColor(ins_Pos, vs_Col, n);
 }

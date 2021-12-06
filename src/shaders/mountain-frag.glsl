@@ -69,17 +69,14 @@ float fbm(vec3 p, float f) {
 
 void main()
 {
-	float n = fbm(fs_Pos.xyz, 2.0);
+	float n = mix(mix(fbm(fs_Pos.xyz, 2.0), fbm(fs_Pos.yzx, 2.0), 0.5), fbm(fs_Pos.yxz, 2.0), 0.5);
     vec4 noise = vec4(n, n, n, 1.0);
-    float cloud = clamp(0.4 * fbm(fs_Pos.zxy, 2.0) + 0.4 * fbm(fs_Pos.xzy, 2.0) + 0.4 * fbm(fs_Pos.yxz, 2.0), 0.0, 0.5);
+    float cloud = clamp(mix(mix(fbm(fs_Pos.yxz, 2.0), fbm(fs_Pos.xzy, 2.0), 0.5),fbm(fs_Pos.yzx, 2.0), 0.5), 0.0, 0.5);
+    //float cloud = clamp(mix(mix(fbm(vec3(n), 5.0), fbm(vec3(n*n), 2.0), 0.5),fbm(vec3(n*n*n), 2.0), 0.5), 0.0, 0.5);
+    
     vec4 color = (fs_Col + noise) * (fs_Pos.y + 0.75) * 0.5 * cloud;
-    vec4 paper_color = vec4(235.0, 222.0, 199.0, 255.0) / 255.0;
-
-	out_Col = 0.9 * color.a * color + (1.0 - color.a) * paper_color;
-    if(color.a < 0.2) {
-        out_Col = paper_color;
-    }
-    out_Col = color;
+    float alpha = color.a * fs_Pos.y * fs_Pos.y;
+    out_Col = vec4(color.rgb, alpha);
 }
 
 

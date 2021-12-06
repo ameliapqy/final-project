@@ -68,9 +68,9 @@ function backgroundSetup() {
 function mountainSetUp() {
   let colorsArray = [0.2, 0.35, 0.25, 1.0];
 
-  let col1sArray = [5, 0, 0, 0];
-  let col2sArray = [0, 5, 0, 0];
-  let col3sArray = [0, 0, 5, 0];
+  let col1sArray = [3, 0, 0, 0];
+  let col2sArray = [0, 3, 0, 0];
+  let col3sArray = [0, 0, 3, 0];
   let col4sArray = [50, -5, -70, 1];
 
   let colors: Float32Array = new Float32Array(colorsArray);

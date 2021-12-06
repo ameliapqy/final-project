@@ -68,11 +68,22 @@ float fbm(float x, float y, float z) {
 
 void main()
 {
-  vec4 color1 = vec4(235.0, 222.0, 199.0, 255.0) / 255.0;
+  vec4 color1 = vec4(232.0, 196.0, 104.0, 1.0) / 255.0;
   float n = 1.0 - fbm(fs_Pos.x, fs_Pos.y, fs_Pos.x);
 //   float n = 1.0 - fbm(fs_Pos.x + 0.1 * sin(0.005 * float(u_Time)), fs_Pos.y + 0.1 * sin(0.005 * float(u_Time)), sin(0.005 * float(u_Time)) * fs_Pos.x);
   n = fbm(n,n,n);
-  out_Col += vec4(n, n, n, 1.0) + vec4(0.65,0.65,0.7,1.0);
+  out_Col += vec4(n, n, n, 1.0) * 0.5 + vec4(0.65,0.65,0.7,1.0);
   out_Col = clamp(out_Col, vec4(0), vec4(1));
-  out_Col = mix(color1, out_Col, 0.8);
+  out_Col = mix(color1, out_Col, 0.7);
+
+  //add water
+
+  float w = fbm(fs_Pos.y + n * 0.5, fs_Pos.y + n * 0.55, fs_Pos.z + n * 0.45);
+  w = w * fs_Pos.y * 1.5;
+  w = clamp(w, -1.0, 0.0);
+  out_Col += vec4(w , w, w, 1.0);
+
+  
+  
 }
+

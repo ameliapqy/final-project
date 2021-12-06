@@ -71,8 +71,9 @@ void main()
 {
 	float n = clamp(0.4 * fbm(fs_Pos.zxy, 2.0) + 0.4 * fbm(fs_Pos.xzy, 2.0) + 0.4 * fbm(fs_Pos.yxz, 2.0), 0.0, 0.5);
     vec4 noise = vec4(n, n, n, 1.0);
-    vec4 color = (fs_Col + noise);
-	out_Col = color;
+    vec3 color = (fs_Col.rgb + noise.rgb);
+
+	out_Col = vec4(color * clamp(fs_Col.a, 0.0, 1.0), fs_Col.a);
 }
 
 

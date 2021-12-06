@@ -66,6 +66,24 @@ float fbm(float x, float y, float z) {
     return total;
 }
 
+vec4 circle(vec2 pos, vec2 center, float rad, vec3 color) {
+
+  pos = (pos + 1.0) / 2.0;
+  pos = vec2(pos.x * u_Dimensions.x, pos.y * u_Dimensions.y);
+
+  pos = vec2(pos.x, pos.y - 0.5 * rad);
+
+  center = (center +1.0) /2.0;
+  center = vec2(center.x * u_Dimensions.x, center.y * u_Dimensions.y);
+
+  rad = rad * u_Dimensions.x;
+
+  float t = 1.0 - length(pos - center) / rad;
+  t = clamp(t, 0.0, 1.0);
+  return vec4(color * t, 0.0);
+}
+
+
 void main()
 {
   vec4 color1 = vec4(232.0, 196.0, 134.0, 1.0) / 255.0;
@@ -81,6 +99,8 @@ void main()
   float w = fbm(fs_Pos.y + n * 0.5, fs_Pos.y + n * 0.55, fs_Pos.z + n * 0.45);
   w = w * fs_Pos.y * 1.5;
   w = clamp(w, -1.0, 0.0);
+  vec4 sun = circle(fs_Pos.xy, vec2(-0.55, 0.45), 0.05, vec3(138.0 / 255.0, -0.25, -0.25));
   out_Col += vec4(w , w, w, 1.0);
+  out_Col += sun;
 }
 

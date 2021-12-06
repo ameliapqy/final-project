@@ -103,11 +103,12 @@ vec4 getColor(vec4 pos, vec4 original, float b) {
 	vec3 edge_color = 5.5 * original.rgb * edge;
     
     color = vec3(min(color.r, edge_color.r), min(color.g, edge_color.g), min(color.b, edge_color.b));
-    float alpha = 1.0;
 	
-    
-	return clamp(vec4(color * lightIntensity, alpha), 0.0, 1.0);
+	return clamp(vec4(color * lightIntensity, 1.0), 0.0, 1.0);
 }
+
+
+
 
 void main()
 {
@@ -135,4 +136,14 @@ void main()
     gl_Position = u_ViewProj * (vec4(instancedPos.xyz, 1.0) + offset);
     ins_Pos = gl_Position;
     fs_Col = getColor(ins_Pos, vs_Col, n);
+
+    //add bleeding effect
+    float a = fbm(mix(fs_Pos.xyz, fs_Pos.zxy, 0.5), 4.0);
+    a = (a + 0.5) * (angle(ins_Pos) + 0.55);
+    a = pow(a, 5.0);
+    fs_Col = vec4(fs_Col.rgb, a);
+    
+    
+   
+    
 }

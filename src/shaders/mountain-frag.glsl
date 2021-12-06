@@ -86,20 +86,6 @@ void main()
     float time = float(u_Time)*0.01;
     float alpha = color.a * fs_Pos.y * fs_Pos.y * (0.3+(cos(time)*cos(time)));
     out_Col = vec4(color2.rgb, alpha);
-
-//   float n = 1.0 - fbm(fs_Pos.xyz);
-//   // float n = 1.0 - fbm(fs_Pos.x + 0.1 * sin(0.005 * float(u_Time)), fs_Pos.y + 0.1 * sin(0.005 * float(u_Time)), sin(0.005 * float(u_Time)) * fs_Pos.x);
-//   n = fbm(vec3(n,n,n));
-//   out_Col += vec4(n, n, n, 1.0) * 0.5 + vec4(0.65,0.65,0.7,1.0);
-//   out_Col = clamp(out_Col, vec4(0), vec4(1));
-//   out_Col = mix(fs_Col, out_Col, 0.7);
-
-//   //add water
-
-//   float w = fbm(fs_Pos.xyz + vec3(n,n,n) * 0.5);
-//   w = w * fs_Pos.y * 1.5;
-//   w = clamp(w, -1.0, 0.0);
-//   out_Col += vec4(w ,w, w, 1.0);
 }
 
 

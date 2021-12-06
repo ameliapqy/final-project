@@ -134,4 +134,5 @@ void main()
 
     ins_Pos = gl_Position;
     fs_Col = getColor(ins_Pos, vs_Col, n);
+    
 }

@@ -400,6 +400,7 @@ function main() {
       camera.setAspectRatio(window.innerWidth / window.innerHeight);
       camera.updateProjectionMatrix();
       flat.setDimensions(window.innerWidth, window.innerHeight);
+      paper.setDimensions(window.innerWidth, window.innerHeight);
     },
     false
   );
@@ -408,6 +409,7 @@ function main() {
   camera.setAspectRatio(window.innerWidth / window.innerHeight);
   camera.updateProjectionMatrix();
   flat.setDimensions(window.innerWidth, window.innerHeight);
+  paper.setDimensions(window.innerWidth, window.innerHeight);
 
   // flowert the render loop
   tick();

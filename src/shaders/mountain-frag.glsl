@@ -77,6 +77,7 @@ void main()
     vec4 color = (fs_Col + noise) * (fs_Pos.y + 0.75) * 0.5 * cloud;
     float alpha = color.a * fs_Pos.y * fs_Pos.y;
     out_Col = vec4(color.rgb, alpha);
+
 }
 
 

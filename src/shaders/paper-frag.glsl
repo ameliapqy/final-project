@@ -109,10 +109,8 @@ void main()
   float w = fbm(fs_Pos.y + n * 0.5, fs_Pos.y + n * 0.55, fs_Pos.z + n * 0.45);
   w = w * fs_Pos.y * 1.5;
   w = clamp(w, -1.0, 0.0);
+  vec4 sun = circle(fs_Pos.xy, vec2(-0.55, 0.45), 0.05, vec3(138.0 / 255.0, -0.25, -0.25));
   out_Col += vec4(w , w, w, 1.0);
-
-  //add sun
-  vec4 sun = circle(fs_Pos.xy, vec2(-0.55, 0.5), 0.05, vec3(138.0 / 255.0, -0.25, -0.25));
   out_Col += sun;
 }
 

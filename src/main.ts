@@ -15,11 +15,11 @@ import Mesh from './geometry/Mesh';
 // Define an object with application parameters and button callbacks
 // This will be referred to by dat.GUI's functions that add GUI elements.
 const controls = {
-  iterations: 5,
+  iterations: 6,
   angle: 25,
   flower_color: [255, 90, 100],
   flower_scale: 8,
-  speed: 1,
+  speed: 3,
 };
 
 let square: Square;
@@ -102,12 +102,12 @@ function rockSetUp() {
 }
 
 function canoeSetUp() {
-  let colorsArray = [0.55, 0.4, 0.35, 1.0];
+  let colorsArray = [0.28, 0.24, 0.20, 1.0];
 
   let col1sArray = [8, 0, 0, 0];
   let col2sArray = [0, 8, 0, 0];
   let col3sArray = [0, 0, 8, 0];
-  let col4sArray = [-100, -50, -50, 1];
+  let col4sArray = [-110, -60, -50, 1];
 
   let colors: Float32Array = new Float32Array(colorsArray);
   let col1s: Float32Array = new Float32Array(col1sArray);
@@ -231,7 +231,7 @@ function main() {
       }.bind(this)
     );
   gui
-    .add(controls, 'angle', 15, 100)
+    .add(controls, 'angle', 20, 30)
     .step(1)
     .onChange(
       function () {
@@ -386,6 +386,7 @@ function main() {
 
   // This function will be called every frame
   function tick() {
+    lsystermSetup();
     time++;
     camera.update();
     // console.log(camera.position);
@@ -431,6 +432,7 @@ function main() {
       camera.setAspectRatio(window.innerWidth / window.innerHeight);
       camera.updateProjectionMatrix();
       flat.setDimensions(window.innerWidth, window.innerHeight);
+      paper.setDimensions(window.innerWidth, window.innerHeight);
     },
     false
   );
@@ -439,6 +441,7 @@ function main() {
   camera.setAspectRatio(window.innerWidth / window.innerHeight);
   camera.updateProjectionMatrix();
   flat.setDimensions(window.innerWidth, window.innerHeight);
+  paper.setDimensions(window.innerWidth, window.innerHeight);
 
   // flowert the render loop
   tick();

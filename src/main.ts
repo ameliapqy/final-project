@@ -20,7 +20,6 @@ const controls = {
   flower_color: [255, 90, 100],
   flower_scale: 8,
   speed: 1,
-  time: 0,
 };
 
 let square: Square;
@@ -32,7 +31,7 @@ let rock: Mesh;
 let rock_front: Mesh;
 let canoe: Mesh;
 
-let time: number = 0.0;
+let time: number = 0;
 let changed: boolean = true;
 
 let sceneTexture: WebGLTexture;
@@ -226,14 +225,14 @@ function main() {
         changed = true;
       }.bind(this)
     );
-  // gui
-  //   .add(controls, 'speed', 0, 10)
-  //   .step(1)
-  //   .onChange(
-  //     function () {
-  //       changed = true;
-  //     }.bind(this)
-  //   );
+  gui
+    .add(controls, 'speed', 0, 10)
+    .step(1)
+    .onChange(
+      function () {
+        changed = true;
+      }.bind(this)
+    );
   // gui
   //   .add(controls, 'time', 0, 10)
   //   .step(1)
@@ -351,12 +350,10 @@ function main() {
 
   // This function will be called every frame
   function tick() {
+    time++;
     camera.update();
     // console.log(camera.position);
     stats.begin();
-    instancedShader.setTime(time);
-    flat.setTime(time++);
-    controls.time = time;
     gl.viewport(0, 0, window.innerWidth, window.innerHeight);
     renderer.clear();
 
@@ -383,9 +380,9 @@ function main() {
     // blurShader.setTex1();
     // renderer.render(camera, blurShader, [screenQuad]);
 
-    renderer.render(camera, paper, [screenQuad]);
+    renderer.render(camera, paper, [screenQuad],time * controls.speed);
     renderer.render(camera, instancedShader, [cylinder, flower]);
-    renderer.render(camera, mountainShader, [rock, canoe]);
+    renderer.render(camera, mountainShader, [rock, canoe],time * controls.speed);
     renderer.render(camera, rockShader, [rock_front]);
 
     stats.end();

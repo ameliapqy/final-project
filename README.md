@@ -105,8 +105,6 @@ Submission:
   - final results with images and a live demo if possible
   - post mortem: how did your project go overall? Did you accomplish your goals? Did you have to pivot?
 
-final result
-
+final result ![](final.png)
 
 post mortem
-

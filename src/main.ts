@@ -102,7 +102,7 @@ function rockSetUp() {
 }
 
 function canoeSetUp() {
-  let colorsArray = [0.28, 0.24, 0.20, 1.0];
+  let colorsArray = [0.28, 0.24, 0.2, 1.0];
 
   let col1sArray = [8, 0, 0, 0];
   let col2sArray = [0, 8, 0, 0];
@@ -126,8 +126,6 @@ function birdSetUp() {
   let col2sArray = [0, 8, 0, 0, 0, 15, 0, 0];
   let col3sArray = [0, 0, 8, 0, 0, 0, 15, 0];
   let col4sArray = [30, 80, -50, 1, 20, 70, -40, 1];
-
-
 
   let colors: Float32Array = new Float32Array(colorsArray);
   let col1s: Float32Array = new Float32Array(col1sArray);
@@ -174,7 +172,8 @@ function loadScene() {
   screenQuad.create();
 
   //load from obj
-  let cylinderObj: string = readTextFile('./src/obj/cylinder.obj');
+  let pass = 'https://raw.githubusercontent.com/ameliapqy/final-project/main/';
+  let cylinderObj: string = readTextFile('https://raw.githubusercontent.com/ameliapqy/final-project/main/src/obj/cylinder.obj');
   cylinder = new Mesh(cylinderObj, vec3.fromValues(0, 0, 0));
   cylinder.create();
 
@@ -182,23 +181,23 @@ function loadScene() {
   base = new Mesh(baseObj, vec3.fromValues(0, 0, 0));
   base.create();
 
-  let flowerObj: string = readTextFile('./src/obj/flower.obj');
+  let flowerObj: string = readTextFile(pass + '/src/obj/flower.obj');
   flower = new Mesh(flowerObj, vec3.fromValues(0, 0, 0));
   flower.create();
 
-  let canoeObj: string = readTextFile('./src/obj/canoe.obj');
+  let canoeObj: string = readTextFile(pass + '/src/obj/canoe.obj');
   canoe = new Mesh(canoeObj, vec3.fromValues(0, 0, 0));
   canoe.create();
 
-  let rockObj: string = readTextFile('./src/obj/rock.obj');
+  let rockObj: string = readTextFile(pass + '/src/obj/rock.obj');
   rock = new Mesh(rockObj, vec3.fromValues(0, 0, 0));
   rock.create();
 
-  let rock_frontObj: string = readTextFile('./src/obj/rock_front.obj');
+  let rock_frontObj: string = readTextFile(pass + '/src/obj/rock_front.obj');
   rock_front = new Mesh(rock_frontObj, vec3.fromValues(0, 0, 0));
   rock_front.create();
 
-  let bird_Obj: string = readTextFile('./src/obj/eagle.obj');
+  let bird_Obj: string = readTextFile(pass + '/src/obj/eagle.obj');
   bird = new Mesh(bird_Obj, vec3.fromValues(0, 0, 0));
   bird.create();
 
@@ -414,12 +413,12 @@ function main() {
     // blurShader.setTex1();
     // renderer.render(camera, blurShader, [screenQuad]);
 
-    renderer.render(camera, paper, [screenQuad],time * controls.speed);
+    renderer.render(camera, paper, [screenQuad], time * controls.speed);
     renderer.render(camera, instancedShader, [cylinder, flower]);
-    renderer.render(camera, mountainShader, [rock],time * controls.speed);
-    renderer.render(camera, boatShader, [canoe],time * controls.speed);
-    renderer.render(camera, rockShader, [rock_front],time * controls.speed);
-    renderer.render(camera, birdShader, [bird],time * controls.speed);
+    renderer.render(camera, mountainShader, [rock], time * controls.speed);
+    renderer.render(camera, boatShader, [canoe], time * controls.speed);
+    renderer.render(camera, rockShader, [rock_front], time * controls.speed);
+    renderer.render(camera, birdShader, [bird], time * controls.speed);
     stats.end();
     // Tell the browser to call `tick` again whenever it renders a new frame
     requestAnimationFrame(tick);

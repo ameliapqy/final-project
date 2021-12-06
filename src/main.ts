@@ -30,6 +30,7 @@ let base: Mesh;
 let rock: Mesh;
 let rock_front: Mesh;
 let canoe: Mesh;
+let bird: Mesh;
 
 let time: number = 0;
 let changed: boolean = true;
@@ -118,6 +119,24 @@ function canoeSetUp() {
   canoe.setNumInstances(1);
 }
 
+function birdSetUp() {
+  let colorsArray = [0.1, 0.1, 0.1, 1.0, 0.1, 0.1, 0.1, 1.0];
+
+  let col1sArray = [8, 0, 0, 0, 10, 0, 0, 0];
+  let col2sArray = [0, 8, 0, 0, 0, 10, 0, 0];
+  let col3sArray = [0, 0, 8, 0, 0, 0, 10, 0];
+  let col4sArray = [30, 80, -50, 1, 20, 70, -40, 1];
+
+  let colors: Float32Array = new Float32Array(colorsArray);
+  let col1s: Float32Array = new Float32Array(col1sArray);
+  let col2s: Float32Array = new Float32Array(col2sArray);
+  let col3s: Float32Array = new Float32Array(col3sArray);
+  let col4s: Float32Array = new Float32Array(col4sArray);
+
+  bird.setInstanceVBOsTransform(colors, col1s, col2s, col3s, col4s);
+  bird.setNumInstances(2);
+}
+
 function lsystermSetup() {
   if (changed) {
     changed = false;
@@ -177,10 +196,15 @@ function loadScene() {
   rock_front = new Mesh(rock_frontObj, vec3.fromValues(0, 0, 0));
   rock_front.create();
 
+  let bird_Obj: string = readTextFile('./src/obj/eagle.obj');
+  bird = new Mesh(bird_Obj, vec3.fromValues(0, 0, 0));
+  bird.create();
+
   backgroundSetup();
   mountainSetUp();
   rockSetUp();
   canoeSetUp();
+  birdSetUp();
   //lsystem
   lsystermSetup();
 }
@@ -303,7 +327,7 @@ function main() {
   // Initial call to load scene
   loadScene();
 
-  const camera = new Camera(vec3.fromValues(0, 10, 100), vec3.fromValues(0, 10, 0));
+  const camera = new Camera(vec3.fromValues(0, 10, 110), vec3.fromValues(0, 10, 0));
 
   const renderer = new OpenGLRenderer(canvas);
 
@@ -357,9 +381,6 @@ function main() {
     gl.viewport(0, 0, window.innerWidth, window.innerHeight);
     renderer.clear();
 
-    //set LSystem Up
-    lsystermSetup();
-
     //scenes set up
 
     // //1. Paper Pass
@@ -381,10 +402,10 @@ function main() {
     // renderer.render(camera, blurShader, [screenQuad]);
 
     renderer.render(camera, paper, [screenQuad],time * controls.speed);
-    renderer.render(camera, instancedShader, [cylinder, flower]);
+    // renderer.render(camera, instancedShader, [cylinder, flower]);
     renderer.render(camera, mountainShader, [rock, canoe],time * controls.speed);
-    renderer.render(camera, rockShader, [rock_front]);
-
+    // renderer.render(camera, rockShader, [rock_front]);
+    renderer.render(camera, instancedShader, [bird]);
     stats.end();
     // Tell the browser to call `tick` again whenever it renders a new frame
     requestAnimationFrame(tick);

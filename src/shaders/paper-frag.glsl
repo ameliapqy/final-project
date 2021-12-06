@@ -48,11 +48,11 @@ float interpNoise3D(float x, float y, float z) {
 }
 
 float fbm(float x, float y, float z) {
-    float time = float(u_Time)*0.001;
+    float time = float(u_Time)*0.005;
 
     float total = 0.0;
     float persistence = 0.5;
-    int octaves = 8;
+    int octaves = 6;
     float shift = 1.0*cos(time)-0.5;
 
     for(int i = 1; i <= octaves; i++) {

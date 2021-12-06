@@ -108,3 +108,6 @@ Submission:
 final result ![](final.png)
 
 post mortem
+
+- add post process shader
+- making the bleeding effect more realistic

@@ -102,12 +102,12 @@ function rockSetUp() {
 }
 
 function canoeSetUp() {
-  let colorsArray = [0.65, 0.5, 0.25, 1.0];
+  let colorsArray = [0.65, 0.4, 0.35, 1.0];
 
-  let col1sArray = [6, 0, 0, 0];
-  let col2sArray = [0, 6, 0, 0];
-  let col3sArray = [0, 0, 6, 0];
-  let col4sArray = [-100, -50, -40, 1];
+  let col1sArray = [8, 0, 0, 0];
+  let col2sArray = [0, 8, 0, 0];
+  let col3sArray = [0, 0, 8, 0];
+  let col4sArray = [-100, -50, -50, 1];
 
   let colors: Float32Array = new Float32Array(colorsArray);
   let col1s: Float32Array = new Float32Array(col1sArray);
@@ -414,10 +414,10 @@ function main() {
     // renderer.render(camera, blurShader, [screenQuad]);
 
     renderer.render(camera, paper, [screenQuad],time * controls.speed);
-    // renderer.render(camera, instancedShader, [cylinder, flower]);
+    renderer.render(camera, instancedShader, [cylinder, flower]);
     renderer.render(camera, mountainShader, [rock],time * controls.speed);
     renderer.render(camera, boatShader, [canoe],time * controls.speed);
-    // renderer.render(camera, rockShader, [rock_front]);
+    renderer.render(camera, rockShader, [rock_front],time * controls.speed);
     renderer.render(camera, birdShader, [bird],time * controls.speed);
     stats.end();
     // Tell the browser to call `tick` again whenever it renders a new frame

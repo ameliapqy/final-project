@@ -69,13 +69,16 @@ float fbm(vec3 p, float f) {
     float persistence = 0.5;
     int octaves = 5;
 
+    float time = 0.0;//float(u_Time)*0.1;
+    float shift = time;
+
     for(int i = 1; i <= octaves; i++) {
         float freq = pow(f, float(i));
         float amp = pow(persistence, float(i));
 
-        total += interpNoise3D(p.x * freq,
-                               p.y * freq,
-                               p.z * freq) * amp;
+        total += interpNoise3D(p.x * freq + shift,
+                               p.y * freq + shift,
+                               p.z * freq + shift) * amp;
     }
     return total;
 }
@@ -121,11 +124,11 @@ void main()
     
 
     vec4 offset = vec4(0.0);
-    float n = 1.0 - fbm(instancedPos.xyz, 2.0);
+    float n = 1.0 - fbm(instancedPos.xyz, 0.8);
     n = pow(n, 6.0);
  
     //create tremor effect
-    offset = 2.0 * transformation * vs_Nor * sin(0.35 * fbm(instancedPos.xyz, 2.0));
+    offset = 2.0 * transformation * vs_Nor * sin(0.2 * fbm(instancedPos.xyz, 0.8));
     
 
     fs_Pos = vs_Pos;

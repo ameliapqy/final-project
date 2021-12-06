@@ -122,11 +122,11 @@ void main()
     vec4 instancedPos = transformation * vs_Pos;
     
     vec4 offset = vec4(0.0);
-    float n = 1.0 - fbm(instancedPos.xyz, 2.0);
+    float n = 1.0 - fbm(instancedPos.xyz, 0.5);
     n = pow(n, 6.0);
  
     //create tremor effect
-    offset = transformation * vs_Nor * sin(0.3 * fbm(instancedPos.xyz, 2.0));
+    offset = transformation * vs_Nor * sin(0.3 * fbm(instancedPos.xyz, 0.5));
     
     float time = sin(u_Time * 0.05)*3.0;
     fs_Pos = vec4(vs_Pos.x + time, vs_Pos.yzw);

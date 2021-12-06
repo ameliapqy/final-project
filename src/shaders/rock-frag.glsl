@@ -12,6 +12,9 @@ in vec4 vs_Transform1;
 uniform vec3 u_CameraPos;
 uniform mat3 u_CameraAxes;
 uniform vec2 u_Dimensions;
+
+uniform float u_Time;
+
 float rand3D(vec3 p) {
     return fract(sin(dot(p, vec3(dot(p,vec3(127.1, 311.7, 456.9)),
                           dot(p,vec3(269.5, 183.3, 236.6)),
@@ -54,15 +57,18 @@ float interpNoise3D(float x, float y, float z) {
 float fbm(vec3 p, float f) {
     float total = 0.0;
     float persistence = 0.15;
-    int octaves = 8;
+    int octaves = 4;
+    float time = float(u_Time)*0.01;
+    float shift = time;
+    float shift2 = 0.0;
 
     for(int i = 1; i <= octaves; i++) {
         float freq = pow(f, float(i));
         float amp = pow(persistence, float(i));
 
-        total += interpNoise3D(p.x * freq,
-                               p.y * freq,
-                               p.z * freq) * amp;
+        total += interpNoise3D(p.x * freq + shift,
+                               p.y * freq - shift,
+                               p.z * freq + shift) * amp;
     }
     return total;
 }
@@ -71,9 +77,8 @@ void main()
 {
 	float n = clamp(0.4 * fbm(fs_Pos.zxy, 2.0) + 0.4 * fbm(fs_Pos.xzy, 2.0) + 0.4 * fbm(fs_Pos.yxz, 2.0), 0.0, 0.5);
     vec4 noise = vec4(n, n, n, 1.0);
-    vec3 color = (fs_Col.rgb + noise.rgb);
-
-	out_Col = vec4(color * clamp(fs_Col.a, 0.0, 1.0), fs_Col.a);
+    vec4 color = (fs_Col + noise);
+	out_Col = color;
 }
 
 

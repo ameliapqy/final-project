@@ -102,7 +102,7 @@ function rockSetUp() {
 }
 
 function canoeSetUp() {
-  let colorsArray = [0.65, 0.4, 0.35, 1.0];
+  let colorsArray = [0.55, 0.4, 0.35, 1.0];
 
   let col1sArray = [8, 0, 0, 0];
   let col2sArray = [0, 8, 0, 0];
@@ -366,7 +366,7 @@ function main() {
 
   const boatShader = new ShaderProgram([
     new Shader(gl.VERTEX_SHADER, require('./shaders/boat-vert.glsl')),
-    new Shader(gl.FRAGMENT_SHADER, require('./shaders/mountain-frag.glsl')),
+    new Shader(gl.FRAGMENT_SHADER, require('./shaders/rock-frag.glsl')),
   ]);
 
   const rockShader = new ShaderProgram([
@@ -431,7 +431,6 @@ function main() {
       camera.setAspectRatio(window.innerWidth / window.innerHeight);
       camera.updateProjectionMatrix();
       flat.setDimensions(window.innerWidth, window.innerHeight);
-      paper.setDimensions(window.innerWidth, window.innerHeight);
     },
     false
   );
@@ -440,7 +439,6 @@ function main() {
   camera.setAspectRatio(window.innerWidth / window.innerHeight);
   camera.updateProjectionMatrix();
   flat.setDimensions(window.innerWidth, window.innerHeight);
-  paper.setDimensions(window.innerWidth, window.innerHeight);
 
   // flowert the render loop
   tick();

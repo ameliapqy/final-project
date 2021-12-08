@@ -349,7 +349,7 @@ function main() {
   ]);
 
   const flat = new ShaderProgram([
-    new Shader(gl.VERTEX_SHADER, require('./shaders/flat-vert.glsl')),
+    new Shader(gl.VERTEX_SHADER, require('./shaders/instanced-vert-old.glsl')),
     new Shader(gl.FRAGMENT_SHADER, require('./shaders/flat-frag.glsl')),
   ]);
 
@@ -413,12 +413,16 @@ function main() {
     // blurShader.setTex1();
     // renderer.render(camera, blurShader, [screenQuad]);
 
+    // uncomment to see before effect
+    // renderer.render(camera, flat, [cylinder, flower, rock, canoe, rock_front, bird]);
+
     renderer.render(camera, paper, [screenQuad], time * controls.speed);
     renderer.render(camera, instancedShader, [cylinder, flower]);
     renderer.render(camera, mountainShader, [rock], time * controls.speed);
     renderer.render(camera, boatShader, [canoe], time * controls.speed);
     renderer.render(camera, rockShader, [rock_front], time * controls.speed);
     renderer.render(camera, birdShader, [bird], time * controls.speed);
+
     stats.end();
     // Tell the browser to call `tick` again whenever it renders a new frame
     requestAnimationFrame(tick);

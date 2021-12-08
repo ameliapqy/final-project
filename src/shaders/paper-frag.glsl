@@ -96,7 +96,7 @@ vec4 circle(vec2 pos, vec2 center, float rad, vec3 color) {
 
 void main()
 {
-  vec4 color1 = vec4(232.0, 196.0, 134.0, 1.0) / 255.0;
+  vec4 color1 = vec4(232.0, 230.0, 255.0, 1.0) / 255.0;
   float n = 1.0 - fbm(fs_Pos.x, fs_Pos.y, fs_Pos.x);
 //   float n = 1.0 - fbm(fs_Pos.x + 0.1 * sin(0.005 * float(u_Time)), fs_Pos.y + 0.1 * sin(0.005 * float(u_Time)), sin(0.005 * float(u_Time)) * fs_Pos.x);
   n = fbm(n,n,n);
@@ -112,5 +112,7 @@ void main()
   vec4 sun = circle(fs_Pos.xy, vec2(-0.55, 0.45), 0.05, vec3(138.0 / 255.0, -0.25, -0.25));
   out_Col += vec4(w , w, w, 1.0);
   out_Col += sun;
+  // plain background for comparison
+  // out_Col = vec4(0.9,0.9,0.9,1.0);
 }
 

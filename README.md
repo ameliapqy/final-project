@@ -15,6 +15,45 @@
   - Create shaders that produce stylization effects that simulate Chinese ink and wash painting style
   - Allow users to control the appearances of the subjects in the painting, such as the height and range of the mountains, the iterations of the L-systems for the trees, and the number of boats in the river, size of the sun or moon, etc.
 
+## Final submission (due 12/6)
+
+Time to polish! Spen this last week of your project using your generator to produce beautiful output. Add textures, tune parameters, play with colors, play with camera animation. Take the feedback from class critques and use it to take your project to the next level.
+
+Submission:
+
+- Push all your code / files to your repository
+- Come to class ready to present your finished project
+- Update your README with two sections
+  - final results with images and a live demo if possible
+  - post mortem: how did your project go overall? Did you accomplish your goals? Did you have to pivot?
+
+final result ![](final2.png)
+
+live demo: https://ameliapqy.github.io/final-project/
+
+Progress: Without Shader:
+
+![](plain.png)
+
+![](plain2.png)
+
+Darken Edge:
+
+![](darkenEdge.png)
+
+![](prog1.png)
+
+![](prog2.png)
+
+![](final2.png)
+
+Post Mortem
+
+- add post process shader to get a better bleeding effect
+- making the bleeding effect more realistic
+- add controls to toggle between the ink wash effect and plain
+- add controls so user could costumize object placement
+
 #### Inspiration/reference:
 
 ![](ref.jpeg)
@@ -92,24 +131,3 @@ Progress:
 - added shaders for ink wash effects
 
 ![](progress1.png)
-
-## Final submission (due 12/6)
-
-Time to polish! Spen this last week of your project using your generator to produce beautiful output. Add textures, tune parameters, play with colors, play with camera animation. Take the feedback from class critques and use it to take your project to the next level.
-
-Submission:
-
-- Push all your code / files to your repository
-- Come to class ready to present your finished project
-- Update your README with two sections
-  - final results with images and a live demo if possible
-  - post mortem: how did your project go overall? Did you accomplish your goals? Did you have to pivot?
-
-final result ![](final.png)
-
-https://ameliapqy.github.io/final-project/
-
-post mortem
-
-- add post process shader
-- making the bleeding effect more realistic

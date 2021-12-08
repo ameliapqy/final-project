@@ -93,7 +93,7 @@ Post Mortem
 
 #### Design:
 
-The entire project will be written in WebGL: ![](diagram.png)
+The entire project will be written in WebGL: ![](flowchart.JPG)
 
 #### Timeline:
 

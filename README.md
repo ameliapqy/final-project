@@ -39,9 +39,9 @@ Progress: Without Shader:
 
 Darken Edge:
 
-![](darkenEdge.png)
+![](darkenEdge.jpeg)
 
-![](prog1.png)
+![](prog1.jpeg)
 
 ![](prog2.png)
 
